@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Perritos</title>
+</head>
+<body>
+
+<h2>Perritos Registrados </h2>
+
+<ul>
+    {% for p in perritos %}
+    <li>
+        {{ p.nombre }} - {{ p.raza }} - {{ p.edad }} años - 
+        {{ "Vacunado" if p.vacunado else "No vacunado" }}
+    </li>
+    {% endfor %}
+</ul>
+
+<a href="/registro">Registrar otro perrito</a>
+
+</body>
+</html>
