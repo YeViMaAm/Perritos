@@ -10,7 +10,7 @@ from src.models.perrito import Perrito
 
 router = APIRouter()
 
-templates = Jinja2Templates(directory="src/templates")
+templates = Jinja2Templates(directory="templates")
 
 # Mostrar formulario de registro
 @router.get("/registro")

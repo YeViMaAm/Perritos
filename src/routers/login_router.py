@@ -4,7 +4,7 @@ from src.controllers.login_controller import autenticar_usuario
 
 router = APIRouter()
 
-templates = Jinja2Templates(directory="src/templates")
+templates = Jinja2Templates(directory="templates")
 
 # Mostrar página principal (login)
 @router.get("/")
