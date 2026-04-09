@@ -2,7 +2,42 @@
 <html>
 <head>
     <title>Lista de Perritos</title>
-    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 16px 32px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 32px auto;
+            padding: 0 16px;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 24px;
+        }
+        .card {
+            background: white;
+            padding: 16px;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        .estado {
+            font-weight: bold;
+            margin-top: 8px;
+        }
+        .pendiente { color: gray; }
+        .en-proceso { color: orange; }
+        .adoptado { color: green; }
+    </style>
 </head>
 <body>
 
@@ -11,20 +46,23 @@
 </header>
 
 <div class="container">
-
     <div class="cards">
         {% for p in perritos %}
         <div class="card">
             <h3>{{ p.nombre }}</h3>
-            <p>{{ p.raza }} - {{ p.edad }} años</p>
+            <p>{{ p.tamano }} • {{ p.sexo }}</p>
+            <p>{{ p.raza }} • {{ p.edad }} años</p>
+            <p>{{ p.ubicacion }}</p>
+            <p>Contacto: {{ p.contacto }}</p>
             <p>{{ "Vacunado" if p.vacunado else "No vacunado" }}</p>
+            <p class="estado {{ p.estado|lower|replace(' ', '-') }}">
+                {{ p.estado }}
+            </p>
         </div>
         {% endfor %}
     </div>
-
-    <a href="/registro">Registrar otro perrito</a>
-
 </div>
 
 </body>
 </html>
+
