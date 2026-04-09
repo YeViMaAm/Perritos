@@ -1,23 +1,28 @@
-from src.exceptions import  (UsuarioNoExiste, ContrasenaIncorrecta, UsuarioVacio, ContrasenaVacia, UsuarioEspacios, ContrasenaEspacios)
+from src.exceptions import (
+    UsuarioNoExiste,
+    ContrasenaIncorrecta,
+    UsuarioVacio,
+    ContrasenaVacia,
+    UsuarioEspacios,
+    ContrasenaEspacios
+)
 
-class login:
+class Login:
 
     def __init__(self, usuario, contrasena):
         self._validar_usuario(usuario)
         self._validar_contrasena(contrasena)
-
-        self.usuario = usuario
         self.contrasena = contrasena
 
     def _validar_usuario(self, usuario):
         if not usuario:
-            raise UsuarioVacio("El usuario no pued estar vacio")
+            raise UsuarioVacio("El usuario no puede estar vacio")
 
         if usuario.strip() == "":
             raise UsuarioEspacios("El usuario no puede contener solo espacios")
 
         if usuario != "candy":
-            raise UsuarioNoExiste(f"El usuario no esta registrado: {usuario}")
+            raise UsuarioNoExiste(f"El usuario no está registrado: {usuario}")
 
     def _validar_contrasena(self, contrasena):
         if not contrasena:
