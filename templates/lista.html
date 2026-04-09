@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Lista de Perritos</title>
+    <title>Perritos Registrados</title>
     <style>
         body {
             margin: 0;
@@ -9,60 +9,130 @@
             background-color: #f4f6f8;
             color: #333;
         }
+
         header {
             background-color: #4CAF50;
             color: white;
             padding: 16px 32px;
         }
+
+        header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #e8f5e9;
+            margin-top: 4px;
+        }
+
         .container {
             max-width: 1100px;
             margin: 32px auto;
             padding: 0 16px;
         }
+
         .cards {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
             gap: 24px;
         }
+
         .card {
-            background: white;
-            padding: 16px;
+            background-color: white;
+            padding: 16px 18px;
             border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
         }
-        .estado {
-            font-weight: bold;
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 6px;
+            font-size: 18px;
+            color: #2e7d32;
+        }
+
+        .card p {
+            margin: 4px 0;
+            font-size: 14px;
+        }
+
+        .tag {
+            display: inline-block;
             margin-top: 8px;
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: bold;
         }
-        .pendiente { color: gray; }
-        .en-proceso { color: orange; }
-        .adoptado { color: green; }
+
+        .pendiente {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+
+        .en-proceso {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+
+        .adoptado {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .link-box {
+            margin-top: 24px;
+            text-align: center;
+        }
+
+        .link-box a {
+            text-decoration: none;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .link-box a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
+
 <body>
 
 <header>
     <h1>Perritos Registrados</h1>
+    <div class="subtitle">Listado de perritos disponibles para adopción</div>
 </header>
 
 <div class="container">
+
     <div class="cards">
         {% for p in perritos %}
         <div class="card">
+
             <h3>{{ p.nombre }}</h3>
+
             <p>{{ p.tamano }} • {{ p.sexo }}</p>
             <p>{{ p.raza }} • {{ p.edad }} años</p>
-            <p>{{ p.ubicacion }}</p>
+            <p>Ubicación: {{ p.ubicacion }}</p>
             <p>Contacto: {{ p.contacto }}</p>
             <p>{{ "Vacunado" if p.vacunado else "No vacunado" }}</p>
-            <p class="estado {{ p.estado|lower|replace(' ', '-') }}">
+
+            <span class="tag {{ p.estado|lower|replace(' ', '-') }}">
                 {{ p.estado }}
-            </p>
+            </span>
+
         </div>
         {% endfor %}
     </div>
+
+    <div class="link-box">
+        <a href="/registro">Registrar otro perrito</a>
+    </div>
+
 </div>
 
 </body>
 </html>
-

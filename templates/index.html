@@ -1,9 +1,8 @@
 
-
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+    <title>Iniciar sesión</title>
     <style>
         body {
             margin: 0;
@@ -11,34 +10,55 @@
             background-color: #f4f6f8;
             color: #333;
         }
+
         header {
             background-color: #4CAF50;
             color: white;
             padding: 16px 32px;
         }
-        header h1 { margin: 0; }
-        .form-box {
+
+        header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .login-box {
             background-color: white;
             padding: 32px;
-            max-width: 400px;
-            margin: 64px auto;
+            max-width: 380px;
+            margin: 80px auto;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+            text-align: center;
         }
+
+        .login-box h2 {
+            margin-bottom: 8px;
+        }
+
+        .login-box p {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 24px;
+        }
+
         label {
             font-weight: bold;
             display: block;
+            text-align: left;
             margin-top: 12px;
         }
-        input, select {
+
+        input {
             width: 100%;
             padding: 8px;
-            margin-top: 4px;
+            margin-top: 6px;
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         button {
-            margin-top: 20px;
+            margin-top: 24px;
             width: 100%;
             padding: 12px;
             background-color: #4CAF50;
@@ -48,17 +68,30 @@
             border-radius: 4px;
             cursor: pointer;
         }
-        button:hover { background-color: #43a047; }
-        .error { color: red; margin-top: 16px; }
+
+        button:hover {
+            background-color: #43a047;
+        }
+
+        .error {
+            margin-top: 16px;
+            color: red;
+            font-size: 14px;
+        }
     </style>
 </head>
+
 <body>
 
 <header>
-    <h1>Iniciar sesión</h1>
+    <h1>Adopción de Perritos</h1>
 </header>
 
-<div class="form-box">
+<div class="login-box">
+
+    <h2>Iniciar sesión</h2>
+    <p>Accede para gestionar o adoptar un perrito</p>
+
     <form action="/login" method="post">
 
         <label>Usuario</label>
@@ -67,19 +100,13 @@
         <label>Contraseña</label>
         <input type="password" name="contrasena" required>
 
-        <label>Rol</label>
-        <select name="rol" required>
-            <option value="Administrador">Administrador</option>
-            <option value="Cuidador">Cuidador</option>
-            <option value="Interesado">Interesado</option>
-        </select>
-
         <button type="submit">Ingresar</button>
     </form>
 
     {% if error %}
         <p class="error">{{ error }}</p>
     {% endif %}
+
 </div>
 
 </body>

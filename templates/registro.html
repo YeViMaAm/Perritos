@@ -9,34 +9,77 @@
             background-color: #f4f6f8;
             color: #333;
         }
+
         header {
             background-color: #4CAF50;
             color: white;
             padding: 16px 32px;
         }
-        header h1 { margin: 0; }
+
+        header h1 {
+            margin: 0;
+            font-size: 22px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #e8f5e9;
+            margin-top: 4px;
+        }
+
         .form-box {
             background-color: white;
-            padding: 32px;
-            max-width: 450px;
-            margin: 32px auto;
+            padding: 28px 32px;
+            max-width: 520px;
+            margin: 32px auto 64px;
             border-radius: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
         }
+
+        .section-title {
+            margin-top: 8px;
+            margin-bottom: 12px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #2e7d32;
+        }
+
         label {
             font-weight: bold;
             display: block;
             margin-top: 12px;
+            font-size: 14px;
         }
+
         input, select {
             width: 100%;
             padding: 8px;
-            margin-top: 4px;
+            margin-top: 6px;
             border: 1px solid #ccc;
             border-radius: 4px;
+            font-size: 14px;
         }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #4CAF50;
+            box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.15);
+        }
+
+        .two-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .helper {
+            font-size: 12px;
+            color: #666;
+            margin-top: 4px;
+        }
+
         button {
-            margin-top: 20px;
+            margin-top: 24px;
             width: 100%;
             padding: 12px;
             background-color: #4CAF50;
@@ -46,62 +89,94 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #43a047;
         }
     </style>
 </head>
+
 <body>
 
 <header>
     <h1>Registrar Perrito</h1>
+    <div class="subtitle">Completa la información para publicar un perrito en adopción</div>
 </header>
 
 <div class="form-box">
-    <form action="/perritos" method="post">
+    /perritos
+
+        <!-- Sección 1: Datos básicos -->
+        <div class="section-title">Datos del perrito</div>
 
         <label>Nombre</label>
-        <input type="text" name="nombre" required>
+        <input type="text" name="nombre" placeholder="Ej. Luna" required>
 
-        <label>Tamaño</label>
-        <select name="tamano" required>
-            <option value="Pequeño">Pequeño</option>
-            <option value="Mediano">Mediano</option>
-            <option value="Grande">Grande</option>
-        </select>
+        <div class="two-columns">
+            <div>
+                <label>Tamaño</label>
+                <select name="tamano" required>
+                    <option value="">Selecciona</option>
+                    <option value="Pequeño">Pequeño</option>
+                    <option value="Mediano">Mediano</option>
+                    <option value="Grande">Grande</option>
+                </select>
+            </div>
+            <div>
+                <label>Sexo</label>
+                <select name="sexo" required>
+                    <option value="">Selecciona</option>
+                    <option value="Macho">Macho</option>
+                    <option value="Hembra">Hembra</option>
+                </select>
+            </div>
+        </div>
 
-        <label>Sexo</label>
-        <select name="sexo" required>
-            <option value="Macho">Macho</option>
-            <option value="Hembra">Hembra</option>
-        </select>
-
-        <label>Edad</label>
-        <input type="number" name="edad" required>
+        <label>Edad (años)</label>
+        <input type="number" name="edad" min="0" placeholder="Ej. 2" required>
 
         <label>Raza</label>
-        <input type="text" name="raza">
+        <input type="text" name="raza" placeholder="Ej. Criollo">
+
+        <!-- Sección 2: Ubicación y contacto -->
+        <div class="section-title">Ubicación y contacto</div>
 
         <label>Ubicación</label>
-        <input type="text" name="ubicacion" required>
+        <input type="text" name="ubicacion" placeholder="Ej. Bogotá" required>
 
         <label>Contacto</label>
-        <input type="text" name="contacto" required>
+        <input type="text" name="contacto" placeholder="Teléfono, WhatsApp o correo" required>
+        <div class="helper">Este dato permitirá a los interesados comunicarse contigo.</div>
 
-        <label>Vacunado</label>
-        <select name="vacunado">
-            <option value="true">Sí</option>
-            <option value="false">No</option>
-        </select>
+        <!-- Sección 3: Estado -->
+        <div class="section-title">Estado de adopción</div>
 
-        <label>Estado de adopción</label>
-        <select name="estado">
-            <option value="Pendiente">Pendiente</option>
-            <option value="En proceso">En proceso</option>
-            <option value="Adoptado">Adoptado</option>
-        </select>
+        <div class="two-columns">
+            <div>
+                <label>Vacunado</label>
+                <select name="vacunado">
+                    <option value="true">Sí</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div>
+                <label>Estado</label>
+                <select name="estado">
+                    <option value="Pendiente">Pendiente</option>
+                    <option value="En proceso">En proceso</option>
+                    <option value="Adoptado">Adoptado</option>
+                </select>
+            </div>
+        </div>
 
-        <button type="submit">Guardar</button>
+        <!-- Sección 4: Fotografía -->
+        <div class="section-title">Fotografía</div>
+
+        <label>URL de la imagen</label>
+        <input type="text" name="foto" placeholder="https://..." required>
+        <div class="helper">Ingresa un enlace a una imagen del perrito.</div>
+
+        <button type="submit">Guardar registro</button>
 
     </form>
 </div>
