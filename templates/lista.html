@@ -2,21 +2,29 @@
 <html>
 <head>
     <title>Lista de Perritos</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-<h2>Perritos Registrados </h2>
+<header>
+    <h1>Perritos Registrados</h1>
+</header>
 
-<ul>
-    {% for p in perritos %}
-    <li>
-        {{ p.nombre }} - {{ p.raza }} - {{ p.edad }} años - 
-        {{ "Vacunado" if p.vacunado else "No vacunado" }}
-    </li>
-    {% endfor %}
-</ul>
+<div class="container">
 
-<a href="/registro">Registrar otro perrito</a>
+    <div class="cards">
+        {% for p in perritos %}
+        <div class="card">
+            <h3>{{ p.nombre }}</h3>
+            <p>{{ p.raza }} - {{ p.edad }} años</p>
+            <p>{{ "Vacunado" if p.vacunado else "No vacunado" }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <a href="/registro">Registrar otro perrito</a>
+
+</div>
 
 </body>
 </html>

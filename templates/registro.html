@@ -3,7 +3,7 @@
 <html>
 <head>
     <title>Registrar Perrito</title>
-    /static/styles.css
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -12,7 +12,8 @@
 </header>
 
 <div class="form-box">
-    /perritos
+    <form action="/perritos" method="post">
+
         <label>Nombre</label>
         <input type="text" name="nombre" required>
 
@@ -23,8 +24,11 @@
         <input type="text" name="raza">
 
         <button type="submit">Guardar</button>
+
     </form>
 </div>
 
 </body>
 </html>
+
+
