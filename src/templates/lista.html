@@ -1,22 +1,31 @@
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Lista de Perritos</title>
+    <title>Perritos en adopción</title>
+    /static/styles.css
 </head>
 <body>
 
-<h2>Perritos Registrados </h2>
+<header>
+    <h1>Perritos disponibles</h1>
+</header>
 
-<ul>
-    {% for p in perritos %}
-    <li>
-        {{ p.nombre }} - {{ p.raza }} - {{ p.edad }} años - 
-        {{ "Vacunado" if p.vacunado else "No vacunado" }}
-    </li>
-    {% endfor %}
-</ul>
+<div class="container">
 
-<a href="/registro">Registrar otro perrito</a>
+    <p>Explora los perritos disponibles para adopción</p>
+
+    <div class="cards">
+        {% for p in perritos %}
+        <div class="card">
+            <h3>{{ p.nombre }}</h3>
+            <p>{{ p.raza }} • {{ p.edad }}</p>
+            <p class="estado {{ p.estado|lower }}">{{ p.estado }}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
 
 </body>
 </html>

@@ -1,36 +1,30 @@
+
 <!DOCTYPE html>
 <html>
 <head>
     <title>Registrar Perrito</title>
+    /static/styles.css
 </head>
 <body>
 
-<h2>Registrar Perrito </h2>
+<header>
+    <h1>Registrar Perrito</h1>
+</header>
 
-<form action="/perritos" method="post">
+<div class="form-box">
+    /perritos
+        <label>Nombre</label>
+        <input type="text" name="nombre" required>
 
-    <input type="number" name="id" placeholder="ID"><br><br>
+        <label>Edad</label>
+        <input type="number" name="edad" required>
 
-    <input type="text" name="nombre" placeholder="Nombre"><br><br>
+        <label>Raza</label>
+        <input type="text" name="raza">
 
-    <input type="text" name="tamano" placeholder="Tamaño"><br><br>
-
-    <input type="text" name="sexo" placeholder="Sexo"><br><br>
-
-    <input type="number" name="edad" placeholder="Edad"><br><br>
-
-    <input type="text" name="raza" placeholder="Raza"><br><br>
-
-    <input type="text" name="ubicacion" placeholder="Ubicación"><br><br>
-
-    <input type="text" name="contacto" placeholder="Contacto"><br><br>
-
-    <label>Vacunado:</label>
-    <input type="checkbox" name="adoptado"><br><br>
-
-    <button type="submit">Registrar</button>
-
-</form>
+        <button type="submit">Guardar</button>
+    </form>
+</div>
 
 </body>
 </html>
