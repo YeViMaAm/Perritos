@@ -1,7 +1,7 @@
 #!/bin/bash
 # Script de inicio para FastAPI en Azure App Service
 # El puerto lo asigna Azure automáticamente
-PORT=${PORT:-8000}
+#PORT=${PORT:-8000}
 #echo "=========================================="
 #echo "🚀 Iniciando FastAPI en el puerto $PORT"
 #echo "📁 Archivo principal: main.py"
@@ -12,14 +12,18 @@ PORT=${PORT:-8000}
 # cambien "main:app" por "nombre_archivo:nombre_instancia"
 #gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:$PORT
 
+
 #!/bin/bash
 # Script de inicio para FastAPI en Azure App Service
-# El puerto lo asigna Azure automáticamente
+
 PORT=${PORT:-8000}
-echo "=========================================="
+
 echo "🚀 Iniciando FastAPI en el puerto $PORT"
-echo "📁 Archivo principal: main.py"
-echo "🔧 Instancia de FastAPI: app"
-echo "=========================================="
-# Iniciar la aplicación con Gunicorn usando exec para reemplazar el shell
-exec gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app --bind 0.0.0.0:$PORT --timeout 120
+
+exec gunicorn src.main:app \
+  --worker-class uvicorn.workers.UvicornWorker \
+  --workers 2 \
+  --timeout 120 \
+  --bind 0.0.0.0:$PORT \
+  --access-logfile - \
+  --error-logfile -
