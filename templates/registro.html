@@ -1,270 +1,304 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Registrar Perrito</title>
+<meta charset="UTF-8">
+<title>Candy - Registrar Perrito</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        :root {
-            --primary: #2E7D32;
-            --primary-light: #66BB6A;
-            --brown: #6D4C41;
-            --accent: #FFB74D;
+<style>
+:root {
+    --green: #2e7d32;
+    --green-light: #66bb6a;
+    --brown: #5d4037;
+    --bg: #f5f5f5;
+    --card: #ffffff;
+    --text: #263238;
+    --gray: #90a4ae;
+}
 
-            --background: #F5F5F5;
-            --card: #FFFFFF;
-            --text: #263238;
-            --gray: #90A4AE;
-        }
+/* GENERAL */
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: var(--background);
-            color: var(--text);
-        }
+/* HEADER (IGUAL A LISTA) */
+header {
+    background: var(--green);
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        /* HEADER */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            padding: 16px 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+header h2 {
+    margin: 0;
+    font-size: 18px;
+}
 
-        .logout {
-            background: white;
-            color: var(--primary);
-            padding: 6px 12px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: bold;
-        }
+/* BOTÓN CERRAR SESIÓN (IGUAL LISTA) */
+.logout {
+    background: var(--brown);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+}
 
-        /* FORM */
-        .form-box {
-            background: var(--card);
-            max-width: 600px;
-            margin: 40px auto;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-        }
+/* CONTENEDOR PRINCIPAL */
+.wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 50px 20px;
+    gap: 40px;
+    flex-wrap: wrap;
+}
 
-        .title {
-            font-size: 22px;
-            color: var(--primary);
-            margin-bottom: 5px;
-        }
+/* IMAGEN LATERAL */
+.side-image {
+    width: 320px;
+    height: 520px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}
 
-        .subtitle {
-            font-size: 14px;
-            color: var(--gray);
-            margin-bottom: 20px;
-        }
+.side-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
-        .section-title {
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-weight: bold;
-            color: var(--brown);
-        }
+/* FORM */
+.form-box {
+    background: var(--card);
+    width: 650px;
+    padding: 35px;
+    border-radius: 14px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
 
-        label {
-            display: block;
-            margin-top: 12px;
-            font-size: 14px;
-            font-weight: bold;
-        }
+/* TITULOS */
+.title {
+    font-size: 24px;
+    color: var(--green);
+    margin-bottom: 5px;
+}
 
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            transition: 0.2s;
-        }
+.subtitle {
+    color: var(--gray);
+    font-size: 14px;
+    margin-bottom: 25px;
+}
 
-        input:focus, select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(46,125,50,0.15);
-            outline: none;
-        }
+/* SECCIONES */
+.section-title {
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    color: var(--brown);
+}
 
-        .two-columns {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-        }
+/* INPUTS */
+label {
+    display: block;
+    margin-top: 12px;
+    font-size: 14px;
+    font-weight: 600;
+}
 
-        .helper {
-            font-size: 12px;
-            color: var(--gray);
-        }
+input, select {
+    width: 100%;
+    padding: 11px;
+    margin-top: 6px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    transition: 0.2s;
+}
 
-        /* BOTÓN */
-        button {
-            margin-top: 25px;
-            width: 100%;
-            padding: 12px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            border: none;
-            color: white;
-            font-size: 15px;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+input:focus, select:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 3px rgba(46,125,50,0.15);
+    outline: none;
+}
 
-        button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-        }
+/* DOS COLUMNAS */
+.two-columns {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
 
-        /* FOOTER */
-        footer {
-            background: #1b1f23;
-            color: #e0e0e0;
-            margin-top: 60px;
-        }
+/* AYUDA */
+.helper {
+    font-size: 12px;
+    color: var(--gray);
+}
 
-        .footer-container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 40px 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        }
+/* BOTÓN PRINCIPAL */
+button {
+    margin-top: 28px;
+    width: 100%;
+    padding: 13px;
+    background: linear-gradient(135deg, var(--green), var(--green-light));
+    border: none;
+    color: white;
+    font-size: 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.2s;
+}
 
-        .footer-bottom {
-            text-align: center;
-            padding: 10px;
-            font-size: 12px;
-            border-top: 1px solid #333;
-        }
-    </style>
+button:hover {
+    transform: translateY(-2px);
+}
+
+/* FOOTER (MISMO ESTILO LISTA) */
+footer {
+    margin-top: 60px;
+    background: linear-gradient(135deg, #3e2723, #5d4037);
+    color: white;
+    padding: 40px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .side-image {
+        display: none;
+    }
+
+    .form-box {
+        width: 100%;
+    }
+}
+</style>
 </head>
 
 <body>
 
+<!-- HEADER -->
 <header>
-    <h2>🐶 Adopción de Perritos</h2>
-    <a href="/logout" class="logout">Cerrar sesión</a>
+    <h2>🐶 Candy - Registro de Perritos</h2>
+    <button class="logout">Cerrar sesión</button>
 </header>
 
-<div class="form-box">
+<!-- CONTENIDO -->
+<div class="wrapper">
 
-    <div class="title">Registrar Perrito</div>
-    <div class="subtitle">Completa la información para publicar en adopción</div>
+    <!-- IMAGEN DECORATIVA -->
+    <div class="side-image">
+        <img src="https://images.unsplash.com/photo-1558788353-f76d92427f16">
+    </div>
 
-    <form action="/perritos" method="post">
+    <!-- FORM -->
+    <div class="form-box">
 
-        <!-- DATOS -->
-        <div class="section-title">Datos del perrito</div>
+        <div class="title">Registrar Perrito</div>
+        <div class="subtitle">Completa la información para publicar en adopción 🐾</div>
 
-        <label>Nombre</label>
-        <input type="text" name="nombre" required>
+        <form action="/perritos" method="post">
 
-        <div class="two-columns">
-            <div>
-                <label>Tamaño</label>
-                <select name="tamano" required>
-                    <option value="">Selecciona</option>
-                    <option>Pequeño</option>
-                    <option>Mediano</option>
-                    <option>Grande</option>
-                </select>
+            <div class="section-title">Datos del perrito</div>
+
+            <label>Nombre</label>
+            <input type="text" name="nombre" required>
+
+            <div class="two-columns">
+                <div>
+                    <label>Tamaño</label>
+                    <select name="tamano">
+                        <option>Pequeño</option>
+                        <option>Mediano</option>
+                        <option>Grande</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label>Sexo</label>
+                    <select name="sexo">
+                        <option>Macho</option>
+                        <option>Hembra</option>
+                    </select>
+                </div>
             </div>
 
-            <div>
-                <label>Sexo</label>
-                <select name="sexo" required>
-                    <option value="">Selecciona</option>
-                    <option>Macho</option>
-                    <option>Hembra</option>
-                </select>
-            </div>
-        </div>
+            <label>Edad</label>
+            <input type="number" name="edad">
 
-        <label>Edad</label>
-        <input type="number" name="edad" min="0" required>
+            <label>Raza</label>
+            <input type="text" name="raza">
 
-        <label>Raza</label>
-        <input type="text" name="raza">
+            <div class="section-title">Ubicación y contacto</div>
 
-        <!-- UBICACIÓN -->
-        <div class="section-title">Ubicación y contacto</div>
+            <label>Ubicación (IMPORTANTE)</label>
+            <input type="text" name="ubicacion">
 
-        <label>Ubicación</label>
-        <input type="text" name="ubicacion" required>
+            <label>Contacto</label>
+            <input type="text" name="contacto">
+            <div class="helper">Teléfono o WhatsApp</div>
 
-        <label>Contacto</label>
-        <input type="text" name="contacto" required>
-        <div class="helper">Teléfono, WhatsApp o correo</div>
+            <div class="section-title">Estado</div>
 
-        <!-- ESTADO -->
-        <div class="section-title">Estado</div>
+            <div class="two-columns">
+                <div>
+                    <label>Vacunado</label>
+                    <select name="vacunado">
+                        <option value="true">Sí</option>
+                        <option value="false">No</option>
+                    </select>
+                </div>
 
-        <div class="two-columns">
-            <div>
-                <label>Vacunado</label>
-                <select name="vacunado">
-                    <option value="true">Sí</option>
-                    <option value="false">No</option>
-                </select>
+                <div>
+                    <label>Estado</label>
+                    <select name="estado">
+                        <option>Pendiente</option>
+                        <option>En proceso</option>
+                        <option>Adoptado</option>
+                    </select>
+                </div>
             </div>
 
-            <div>
-                <label>Estado</label>
-                <select name="estado">
-                    <option>Pendiente</option>
-                    <option>En proceso</option>
-                    <option>Adoptado</option>
-                </select>
-            </div>
-        </div>
+            <div class="section-title">Fotografía</div>
 
-        <!-- FOTO -->
-        <div class="section-title">Fotografía</div>
+            <label>URL imagen</label>
+            <input type="text" name="foto">
 
-        <label>URL de la imagen</label>
-        <input type="text" name="foto" required>
-        <div class="helper">Agrega una imagen bonita del perrito 🐶</div>
+            <button type="submit">Guardar registro</button>
 
-        <button type="submit">Guardar registro</button>
+        </form>
 
-    </form>
+    </div>
 
 </div>
 
+<!-- FOOTER IGUAL LISTA -->
 <footer>
-    <div class="footer-container">
-        <div>
-            <h3>🐶 Adopción</h3>
-            <p>Adoptar es salvar una vida 🐾</p>
-        </div>
-
-        <div>
-            <p>Facebook</p>
-            <p>Instagram</p>
-            <p>WhatsApp</p>
-        </div>
-
-        <div>
-            <p>Privacidad</p>
-            <p>Términos</p>
-            <p>Datos</p>
-        </div>
+    <div>
+        <h3>🐶 Candy</h3>
+        <p>Adoptar es cambiar una vida ❤️</p>
     </div>
 
-    <div class="footer-bottom">
-        © 2026 Adopción de Perritos
+    <div>
+        <p>Facebook</p>
+        <p>Instagram</p>
+        <p>WhatsApp</p>
+    </div>
+
+    <div>
+        <p>Privacidad</p>
+        <p>Términos</p>
+        <p>Datos</p>
     </div>
 </footer>
 
 </body>
 </html>
-
