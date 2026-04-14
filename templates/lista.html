@@ -1,202 +1,160 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<title>Candy - Perritos en adopción</title>
+    <meta charset="UTF-8">
+    <title>Candy - Adopción</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<style>
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background-color: #f5f5f5;
-    color: #333;
-}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
 
-/* HEADER */
-header {
-    background: #2e7d32;
-    color: white;
-    padding: 16px 32px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+        body {
+            background: #f5f5f5;
+        }
 
-.logout {
-    background: #5d4037;
-    color: white;
-    border: none;
-    padding: 8px 14px;
-    border-radius: 6px;
-    cursor: pointer;
-}
+        /* NAVBAR */
+        header {
+            background: #2e7d32;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
-/* HERO CARRUSEL */
-.hero {
-    position: relative;
-    height: 280px;
-    overflow: hidden;
-}
+        header h1 {
+            font-size: 24px;
+        }
 
-.slides {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-}
+        .logout {
+            background: #5d4037;
+            border: none;
+            padding: 10px 15px;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+        }
 
-.slide {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-size: cover;
-    background-position: center;
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
-}
+        /* CARRUSEL */
+        .carousel {
+            position: relative;
+            height: 350px;
+            overflow: hidden;
+        }
 
-.slide.active {
-    opacity: 1;
-}
+        .slides {
+            display: flex;
+            width: 300%;
+            height: 100%;
+            animation: slide 15s infinite;
+        }
 
-.hero::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: rgba(62, 39, 35, 0.55);
-}
+        .slide {
+            width: 100%;
+            position: relative;
+        }
 
-.hero-content {
-    position: relative;
-    color: white;
-    text-align: center;
-    z-index: 2;
-    margin-top: 90px;
-}
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            filter: brightness(70%);
+        }
 
-.dots {
-    position: absolute;
-    bottom: 12px;
-    width: 100%;
-    text-align: center;
-    z-index: 2;
-}
+        .overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            text-align: center;
+        }
 
-.dot {
-    display: inline-block;
-    width: 10px;
-    height: 10px;
-    margin: 4px;
-    background: #ddd;
-    border-radius: 50%;
-}
+        .overlay h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
 
-.dot.active {
-    background: #FFB74D;
-}
+        .overlay p {
+            font-size: 18px;
+        }
 
-/* FILTROS */
-.filters {
-    background: white;
-    margin: -40px auto 20px;
-    padding: 16px;
-    max-width: 1100px;
-    border-radius: 10px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-    gap: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
+        /* SLIDE SOLO TEXTO */
+        .slide-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #5d4037, #8d6e63);
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
 
-.filters input, .filters select {
-    padding: 8px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-}
+        .slide-text h2 {
+            font-size: 32px;
+        }
 
-.search-box {
-    display: flex;
-    gap: 8px;
-}
+        .slide-text p {
+            margin-top: 10px;
+        }
 
-.search-box button {
-    background: #5d4037;
-    color: white;
-    border: none;
-    padding: 8px;
-    border-radius: 6px;
-    cursor: pointer;
-}
+        @keyframes slide {
+            0% { margin-left: 0; }
+            30% { margin-left: 0; }
 
-/* CARDS */
-.container {
-    max-width: 1100px;
-    margin: auto;
-    padding: 20px;
-}
+            33% { margin-left: -100%; }
+            63% { margin-left: -100%; }
 
-.cards {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-}
+            66% { margin-left: -200%; }
+            96% { margin-left: -200%; }
 
-.card {
-    background: white;
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-}
+            100% { margin-left: 0; }
+        }
 
-.card img {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-}
+        /* CONTENIDO */
+        .container {
+            padding: 40px;
+        }
 
-.card-content {
-    padding: 12px;
-}
+        .cards {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
 
-.card h3 {
-    margin: 0;
-    color: #2e7d32;
-}
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            width: 250px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
 
-/* FOOTER */
-footer {
-    background: #3E2723;
-    color: #f1f1f1;
-    margin-top: 40px;
-}
+        .card h3 {
+            color: #2e7d32;
+        }
 
-.footer-container {
-    max-width: 1100px;
-    margin: auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-    padding: 20px;
-}
+        /* FOOTER */
+        footer {
+            margin-top: 50px;
+            background: linear-gradient(135deg, #3e2723, #5d4037);
+            color: white;
+            padding: 30px;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
 
-footer h3 {
-    color: #FFB74D;
-}
-
-footer a {
-    color: #ddd;
-    text-decoration: none;
-}
-
-footer a:hover {
-    color: #FFB74D;
-}
-
-.footer-bottom {
-    text-align: center;
-    padding: 10px;
-    border-top: 1px solid #555;
-}
-</style>
+        footer div {
+            margin: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -206,120 +164,78 @@ footer a:hover {
     <button class="logout">Cerrar sesión</button>
 </header>
 
-<!-- HERO -->
-<div class="hero">
-
+<!-- CARRUSEL -->
+<div class="carousel">
     <div class="slides">
-        <div class="slide active" style="background-image: url('https://st3.depositphotos.com/1913515/32088/i/450/depositphotos_320883414-stock-photo-two-happy-dogs-playing-together.jpg');"></div>
-        <div class="slide" style="background-image: url('https://i.pinimg.com/originals/de/53/5e/de535e1c735bdf5fb46f3623d019056d.jpg');"></div>
-        <div class="slide" style="background-image: url('https://www.shutterstock.com/image-photo/two-wet-dogs-carrying-one-600nw-2657886009.jpg');"></div>
-    </div>
 
-    <div class="hero-content">
-        <h2>Encuentra tu mejor amigo</h2>
-        <p>Adopta, no compres 🐾</p>
-    </div>
-
-    <div class="dots">
-        <span class="dot active"></span>
-        <span class="dot"></span>
-        <span class="dot"></span>
-    </div>
-
-</div>
-
-<!-- FILTROS -->
-<div class="filters">
-    <input type="text" placeholder="Ubicación">
-    
-    <select>
-        <option>Tamaño</option>
-        <option>Pequeño</option>
-        <option>Mediano</option>
-        <option>Grande</option>
-    </select>
-
-    <select>
-        <option>Sexo</option>
-        <option>Macho</option>
-        <option>Hembra</option>
-    </select>
-
-    <div class="search-box">
-        <input type="text" placeholder="Buscar...">
-        <button>Buscar</button>
-    </div>
-</div>
-
-<!-- CARDS -->
-<div class="container">
-    <div class="cards">
-        {% for p in perritos %}
-        <div class="card">
-            <img src="{{ p.foto }}" alt="perrito">
-            <div class="card-content">
-                <h3>{{ p.nombre }}</h3>
-                <p>{{ p.tamano }} • {{ p.sexo }}</p>
-                <p>{{ p.raza }} • {{ p.edad }} años</p>
-                <p>📍 {{ p.ubicacion }}</p>
-                <p>📞 {{ p.contacto }}</p>
+        <!-- SLIDE 1 -->
+        <div class="slide">
+            <img src="https://st3.depositphotos.com/1913515/32088/i/450/depositphotos_320883414-stock-photo-two-happy-dogs-playing-together.jpg">
+            <div class="overlay">
+                <h2>Encuentra tu mejor amigo</h2>
+                <p>Adopta, no compres 🐾</p>
             </div>
         </div>
-        {% endfor %}
+
+        <!-- SLIDE 2 -->
+        <div class="slide">
+            <img src="https://www.shutterstock.com/image-photo/two-wet-dogs-carrying-one-600nw-2657886009.jpg">
+            <div class="overlay">
+                <h2>Amor sin condiciones</h2>
+                <p>Ellos solo esperan una oportunidad ❤️</p>
+            </div>
+        </div>
+
+        <!-- SLIDE 3 TEXTO -->
+        <div class="slide slide-text">
+            <div>
+                <h2>Cambia una vida hoy</h2>
+                <p>En Candy conectamos personas con perritos que necesitan hogar 🐶</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- LISTA -->
+<div class="container">
+    <div class="cards">
+
+        <div class="card">
+            <h3>Max</h3>
+            <p>Labrador • 2 años</p>
+            <p>📍 Bogotá</p>
+        </div>
+
+        <div class="card">
+            <h3>Luna</h3>
+            <p>Criollo • 1 año</p>
+            <p>📍 Medellín</p>
+        </div>
+
     </div>
 </div>
 
 <!-- FOOTER -->
 <footer>
-    <div class="footer-container">
-
-        <div>
-            <h3>🐶 Candy</h3>
-            <p>Endulzando vidas con amor perruno 🐾</p>
-        </div>
-
-        <div>
-            <h4>Redes</h4>
-            <p><a href="#">Facebook: /CandyAdopciones</a></p>
-            <p><a href="#">Instagram: @candy.adopta</a></p>
-            <p><a href="#">WhatsApp: +57 310 456 7890</a></p>
-        </div>
-
-        <div>
-            <h4>Legal</h4>
-            <p><a href="#">Política de privacidad</a></p>
-            <p><a href="#">Términos</a></p>
-        </div>
-
+    <div>
+        <h3>🐶 Candy</h3>
+        <p>Endulzando vidas con amor perruno 🐾</p>
     </div>
 
-    <div class="footer-bottom">
-        © 2026 Candy - Todos los derechos reservados
+    <div>
+        <h4>Redes</h4>
+        <p>Facebook: /CandyAdopciones</p>
+        <p>Instagram: @candy.adopta</p>
+        <p>WhatsApp: +57 310 456 7890</p>
+    </div>
+
+    <div>
+        <h4>Legal</h4>
+        <p>Política de privacidad</p>
+        <p>Términos y condiciones</p>
     </div>
 </footer>
-
-<script>
-let index = 0;
-const slides = document.querySelectorAll('.slide');
-const dots = document.querySelectorAll('.dot');
-
-function showSlide(i) {
-    slides.forEach((slide, idx) => {
-        slide.classList.remove('active');
-        dots[idx].classList.remove('active');
-    });
-
-    slides[i].classList.add('active');
-    dots[i].classList.add('active');
-}
-
-function autoSlide() {
-    index = (index + 1) % slides.length;
-    showSlide(index);
-}
-
-setInterval(autoSlide, 4000);
-</script>
 
 </body>
 </html>
