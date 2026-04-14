@@ -38,15 +38,15 @@ header {
 
 /* CARRUSEL */
 .carousel {
-    height: 420px; /* 🔥 MÁS ALTO */
+    height: 380px; /* 🔥 equilibrio perfecto */
     overflow: hidden;
 }
 
 .slides {
     display: flex;
-    width: 300%;
+    width: 200%; /* 🔥 solo 2 slides */
     height: 100%;
-    animation: slide 15s infinite;
+    animation: slide 12s infinite;
 }
 
 .slide {
@@ -54,22 +54,18 @@ header {
     position: relative;
 }
 
-/* 🔥 AJUSTE CLAVE */
 .slide img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-
-    /* 👇 ESTO ES LO IMPORTANTE */
-    object-position: center 30%; /* sube el enfoque (evita cortar cabeza) */
-
-    transform: scale(0.95); /* simula "alejar" la imagen */
+    object-position: center 30%;
+    transform: scale(0.95);
     filter: brightness(65%);
 }
 
 .overlay {
     position: absolute;
-    bottom: 40px; /* 🔥 BAJAMOS TEXTO */
+    bottom: 40px;
     left: 50%;
     transform: translateX(-50%);
     color: white;
@@ -84,35 +80,27 @@ header {
     font-size: 16px;
 }
 
-/* SLIDE TEXTO */
-.slide-text {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #5d4037, #8d6e63);
-    color: white;
-    text-align: center;
-}
-
-/* ANIMACIÓN */
+/* ANIMACIÓN 2 SLIDES */
 @keyframes slide {
     0% { margin-left: 0; }
-    30% { margin-left: 0; }
+    45% { margin-left: 0; }
 
-    33% { margin-left: -100%; }
-    63% { margin-left: -100%; }
-
-    66% { margin-left: -200%; }
-    96% { margin-left: -200%; }
+    50% { margin-left: -100%; }
+    95% { margin-left: -100%; }
 
     100% { margin-left: 0; }
+}
+
+/* 🔥 ESPACIADO GENERAL */
+.main {
+    padding-top: 40px;
 }
 
 /* FILTROS */
 .filters {
     background: white;
     padding: 20px;
-    margin: -40px auto 20px;
+    margin: 40px auto; /* 🔥 separación real */
     width: 90%;
     border-radius: 12px;
     display: flex;
@@ -129,7 +117,7 @@ header {
 
 /* CONTENIDO */
 .container {
-    padding: 20px 40px;
+    padding: 20px 40px 60px; /* 🔥 más largo abajo */
 }
 
 .cards {
@@ -155,7 +143,7 @@ footer {
     margin-top: 50px;
     background: linear-gradient(135deg, #3e2723, #5d4037);
     color: white;
-    padding: 30px;
+    padding: 40px;
     display: flex;
     justify-content: space-around;
     flex-wrap: wrap;
@@ -190,48 +178,45 @@ footer {
             </div>
         </div>
 
-        <div class="slide slide-text">
-            <div>
-                <h2>Cambia una vida hoy</h2>
-                <p>En Candy conectamos personas con perritos que necesitan hogar 🐶</p>
+    </div>
+</div>
+
+<div class="main">
+
+    <!-- FILTROS -->
+    <div class="filters">
+        <input type="text" placeholder="🔍 Buscar...">
+        <select>
+            <option>Ubicación</option>
+            <option>Bogotá</option>
+            <option>Medellín</option>
+        </select>
+        <select>
+            <option>Edad</option>
+            <option>Cachorro</option>
+            <option>Adulto</option>
+        </select>
+    </div>
+
+    <!-- LISTA -->
+    <div class="container">
+        <div class="cards">
+
+            <div class="card">
+                <h3>Max</h3>
+                <p>Labrador • 2 años</p>
+                <p>📍 Bogotá</p>
             </div>
-        </div>
 
+            <div class="card">
+                <h3>Luna</h3>
+                <p>Criollo • 1 año</p>
+                <p>📍 Medellín</p>
+            </div>
+
+        </div>
     </div>
-</div>
 
-<!-- FILTROS + BUSCADOR -->
-<div class="filters">
-    <input type="text" placeholder="🔍 Buscar...">
-    <select>
-        <option>Ubicación</option>
-        <option>Bogotá</option>
-        <option>Medellín</option>
-    </select>
-    <select>
-        <option>Edad</option>
-        <option>Cachorro</option>
-        <option>Adulto</option>
-    </select>
-</div>
-
-<!-- LISTA -->
-<div class="container">
-    <div class="cards">
-
-        <div class="card">
-            <h3>Max</h3>
-            <p>Labrador • 2 años</p>
-            <p>📍 Bogotá</p>
-        </div>
-
-        <div class="card">
-            <h3>Luna</h3>
-            <p>Criollo • 1 año</p>
-            <p>📍 Medellín</p>
-        </div>
-
-    </div>
 </div>
 
 <footer>
