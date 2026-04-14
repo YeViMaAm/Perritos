@@ -2,99 +2,187 @@
 <html>
 <head>
     <title>Perritos Registrados</title>
+
     <style>
+        :root {
+            --primary: #2E7D32;
+            --primary-light: #66BB6A;
+            --brown: #6D4C41;
+            --accent: #FFB74D;
+
+            --background: #F5F5F5;
+            --card: #FFFFFF;
+            --text: #263238;
+            --gray: #90A4AE;
+        }
+
         body {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
-            background-color: #f4f6f8;
-            color: #333;
+            background-color: var(--background);
+            color: var(--text);
         }
 
+        /* HEADER */
         header {
-            background-color: #4CAF50;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             color: white;
             padding: 16px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        header h1 {
-            margin: 0;
-            font-size: 22px;
+        .logout {
+            background: white;
+            color: var(--primary);
+            padding: 6px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
         }
 
-        .subtitle {
-            font-size: 14px;
-            color: #e8f5e9;
-            margin-top: 4px;
+        /* CARRUSEL */
+        .carousel {
+            max-width: 1100px;
+            margin: 20px auto;
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
         }
 
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 320px;
+            object-fit: cover;
+        }
+
+        .overlay {
+            position: absolute;
+            bottom: 0;
+            padding: 20px;
+            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
+            color: white;
+        }
+
+        .prev, .next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0,0,0,0.4);
+            border: none;
+            color: white;
+            font-size: 20px;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+        }
+
+        .prev { left: 10px; }
+        .next { right: 10px; }
+
+        /* CONTENEDOR */
         .container {
             max-width: 1100px;
-            margin: 32px auto;
-            padding: 0 16px;
+            margin: auto;
+            padding: 20px;
         }
 
+        /* BUSCADOR */
+        .search-box input {
+            width: 100%;
+            padding: 12px;
+            border-radius: 20px;
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+
+        /* FILTROS */
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        select {
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ddd;
+        }
+
+        /* CARDS */
         .cards {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 24px;
+            gap: 20px;
         }
 
         .card {
-            background-color: white;
-            padding: 16px 18px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            background: var(--card);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+            transition: 0.2s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 14px;
         }
 
         .card h3 {
-            margin-top: 0;
-            margin-bottom: 6px;
-            font-size: 18px;
-            color: #2e7d32;
-        }
-
-        .card p {
-            margin: 4px 0;
-            font-size: 14px;
+            margin: 0;
+            color: var(--primary);
         }
 
         .tag {
             display: inline-block;
             margin-top: 8px;
-            padding: 4px 8px;
+            padding: 4px 10px;
             border-radius: 12px;
             font-size: 12px;
-            font-weight: bold;
         }
 
-        .pendiente {
-            background-color: #e0e0e0;
-            color: #333;
+        .pendiente { background: #e0e0e0; }
+        .en-proceso { background: #ffe0b2; }
+        .adoptado { background: #c8e6c9; }
+
+        /* FOOTER */
+        footer {
+            background: #1b1f23;
+            color: #e0e0e0;
+            margin-top: 60px;
         }
 
-        .en-proceso {
-            background-color: #fff3cd;
-            color: #856404;
+        .footer-container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 40px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
         }
 
-        .adoptado {
-            background-color: #d4edda;
-            color: #155724;
-        }
-
-        .link-box {
-            margin-top: 24px;
+        .footer-bottom {
             text-align: center;
-        }
-
-        .link-box a {
-            text-decoration: none;
-            color: #4CAF50;
-            font-weight: bold;
-        }
-
-        .link-box a:hover {
-            text-decoration: underline;
+            padding: 10px;
+            font-size: 12px;
+            border-top: 1px solid #333;
         }
     </style>
 </head>
@@ -102,37 +190,124 @@
 <body>
 
 <header>
-    <h1>Perritos Registrados</h1>
-    <div class="subtitle">Listado de perritos disponibles para adopción</div>
+    <h2>🐶 Adopción de Perritos</h2>
+    <a href="/logout" class="logout">Cerrar sesión</a>
 </header>
+
+<!-- CARRUSEL -->
+<div class="carousel">
+    <div class="slides">
+        <div class="slide"><img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b"></div>
+        <div class="slide"><img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d"></div>
+        <div class="slide"><img src="https://images.unsplash.com/photo-1507149833265-60c372daea22"></div>
+    </div>
+
+    <button class="prev">&#10094;</button>
+    <button class="next">&#10095;</button>
+</div>
 
 <div class="container">
 
+    <!-- BUSCADOR -->
+    <div class="search-box">
+        <input type="text" placeholder="🔍 Buscar por nombre, raza o ubicación...">
+    </div>
+
+    <!-- FILTROS -->
+    <div class="filters">
+        <select>
+            <option>Tamaño</option>
+            <option>Pequeño</option>
+            <option>Mediano</option>
+            <option>Grande</option>
+        </select>
+
+        <select>
+            <option>Sexo</option>
+            <option>Macho</option>
+            <option>Hembra</option>
+        </select>
+
+        <select>
+            <option>Estado</option>
+            <option>Pendiente</option>
+            <option>En proceso</option>
+            <option>Adoptado</option>
+        </select>
+    </div>
+
+    <!-- CARDS -->
     <div class="cards">
         {% for p in perritos %}
         <div class="card">
+            <img src="{{ p.foto }}" alt="">
 
-            <h3>{{ p.nombre }}</h3>
+            <div class="card-content">
+                <h3>{{ p.nombre }}</h3>
+                <p>{{ p.tamano }} • {{ p.sexo }}</p>
+                <p>{{ p.raza }} • {{ p.edad }} años</p>
+                <p>📍 {{ p.ubicacion }}</p>
+                <p>📞 {{ p.contacto }}</p>
 
-            <p>{{ p.tamano }} • {{ p.sexo }}</p>
-            <p>{{ p.raza }} • {{ p.edad }} años</p>
-            <p>Ubicación: {{ p.ubicacion }}</p>
-            <p>Contacto: {{ p.contacto }}</p>
-            <p>{{ "Vacunado" if p.vacunado else "No vacunado" }}</p>
-
-            <span class="tag {{ p.estado|lower|replace(' ', '-') }}">
-                {{ p.estado }}
-            </span>
-
+                <span class="tag {{ p.estado|lower|replace(' ', '-') }}">
+                    {{ p.estado }}
+                </span>
+            </div>
         </div>
         {% endfor %}
     </div>
 
-    <div class="link-box">
-        <a href="/registro">Registrar otro perrito</a>
+</div>
+
+<footer>
+    <div class="footer-container">
+        <div>
+            <h3>🐶 Adopción</h3>
+            <p>Adoptar es salvar una vida 🐾</p>
+        </div>
+
+        <div>
+            <p>Facebook</p>
+            <p>Instagram</p>
+            <p>WhatsApp</p>
+        </div>
+
+        <div>
+            <p>Privacidad</p>
+            <p>Términos</p>
+            <p>Datos</p>
+        </div>
     </div>
 
-</div>
+    <div class="footer-bottom">
+        © 2026 Adopción de Perritos
+    </div>
+</footer>
+
+<script>
+let index = 0;
+const slides = document.querySelector(".slides");
+const totalSlides = document.querySelectorAll(".slide").length;
+
+function updateSlide() {
+    slides.style.transform = `translateX(-${index * 100}%)`;
+}
+
+document.querySelector(".next").onclick = () => {
+    index = (index + 1) % totalSlides;
+    updateSlide();
+};
+
+document.querySelector(".prev").onclick = () => {
+    index = (index - 1 + totalSlides) % totalSlides;
+    updateSlide();
+};
+
+setInterval(() => {
+    index = (index + 1) % totalSlides;
+    updateSlide();
+}, 4000);
+</script>
 
 </body>
 </html>

@@ -3,109 +3,172 @@
 <html>
 <head>
     <title>Iniciar sesión</title>
+
     <style>
+        :root {
+            --primary: #2E7D32;
+            --primary-light: #66BB6A;
+            --accent: #FFB74D;
+
+            --background: #F5F5F5;
+            --card: #FFFFFF;
+            --text: #263238;
+            --gray: #90A4AE;
+        }
+
         body {
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
-            background-color: #f4f6f8;
-            color: #333;
+            height: 100vh;
+            display: flex;
         }
 
-        header {
-            background-color: #4CAF50;
+        /* LADO IZQUIERDO (IMAGEN) */
+        .left {
+            flex: 1;
+            background-image: url("https://images.unsplash.com/photo-1517849845537-4d257902454a");
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+
+        .overlay {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
             color: white;
-            padding: 16px 32px;
+            max-width: 300px;
         }
 
-        header h1 {
+        .overlay h1 {
             margin: 0;
-            font-size: 22px;
+            font-size: 28px;
+        }
+
+        .overlay p {
+            font-size: 14px;
+        }
+
+        /* LADO DERECHO (FORM) */
+        .right {
+            flex: 1;
+            background: var(--background);
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .login-box {
-            background-color: white;
-            padding: 32px;
-            max-width: 380px;
-            margin: 80px auto;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-            text-align: center;
+            background: var(--card);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+            width: 320px;
         }
 
         .login-box h2 {
-            margin-bottom: 8px;
+            margin-bottom: 5px;
+            color: var(--primary);
         }
 
         .login-box p {
             font-size: 14px;
-            color: #666;
-            margin-bottom: 24px;
+            color: var(--gray);
+            margin-bottom: 20px;
         }
 
         label {
             font-weight: bold;
-            display: block;
-            text-align: left;
-            margin-top: 12px;
+            font-size: 14px;
         }
 
         input {
             width: 100%;
-            padding: 8px;
+            padding: 10px;
             margin-top: 6px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+        }
+
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(46,125,50,0.15);
+            outline: none;
         }
 
         button {
-            margin-top: 24px;
             width: 100%;
             padding: 12px;
-            background-color: #4CAF50;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
             border: none;
             color: white;
-            font-size: 16px;
-            border-radius: 4px;
+            font-size: 15px;
+            border-radius: 6px;
             cursor: pointer;
         }
 
         button:hover {
-            background-color: #43a047;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
         }
 
         .error {
-            margin-top: 16px;
+            margin-top: 10px;
             color: red;
-            font-size: 14px;
+            font-size: 13px;
+        }
+
+        /* RESPONSIVE (MUY PRO 🔥) */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            .left {
+                height: 200px;
+            }
+
+            .overlay {
+                bottom: 10px;
+                left: 20px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<header>
-    <h1>Adopción de Perritos</h1>
-</header>
+<!-- IMAGEN -->
+<div class="left">
+    <div class="overlay">
+        <h1>Encuentra tu mejor amigo 🐾</h1>
+        <p>Adoptar es salvar una vida</p>
+    </div>
+</div>
 
-<div class="login-box">
+<!-- FORM -->
+<div class="right">
 
-    <h2>Iniciar sesión</h2>
-    <p>Accede para gestionar o adoptar un perrito</p>
+    <div class="login-box">
+        <h2>Iniciar sesión</h2>
+        <p>Accede para adoptar o registrar un perrito</p>
 
-    <form action="/login" method="post">
+        <form action="/login" method="post">
 
-        <label>Usuario</label>
-        <input type="text" name="usuario" required>
+            <label>Usuario</label>
+            <input type="text" name="usuario" required>
 
-        <label>Contraseña</label>
-        <input type="password" name="contrasena" required>
+            <label>Contraseña</label>
+            <input type="password" name="contrasena" required>
 
-        <button type="submit">Ingresar</button>
-    </form>
+            <button type="submit">Ingresar</button>
+        </form>
 
-    {% if error %}
-        <p class="error">{{ error }}</p>
-    {% endif %}
+        {% if error %}
+            <p class="error">{{ error }}</p>
+        {% endif %}
+
+    </div>
 
 </div>
 
