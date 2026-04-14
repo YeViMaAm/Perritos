@@ -1,312 +1,324 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Perritos Registrados</title>
+<meta charset="UTF-8">
+<title>Candy - Perritos en adopción</title>
 
-    <style>
-        :root {
-            --primary: #2E7D32;
-            --primary-light: #66BB6A;
-            --brown: #6D4C41;
-            --accent: #FFB74D;
+<style>
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+}
 
-            --background: #F5F5F5;
-            --card: #FFFFFF;
-            --text: #263238;
-            --gray: #90A4AE;
-        }
+/* HEADER */
+header {
+    background: #2e7d32;
+    color: white;
+    padding: 16px 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: var(--background);
-            color: var(--text);
-        }
+.logout {
+    background: #5d4037;
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+}
 
-        /* HEADER */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            padding: 16px 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+/* HERO CARRUSEL */
+.hero {
+    position: relative;
+    height: 280px;
+    overflow: hidden;
+}
 
-        .logout {
-            background: white;
-            color: var(--primary);
-            padding: 6px 12px;
-            border-radius: 20px;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: bold;
-        }
+.slides {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
 
-        /* CARRUSEL */
-        .carousel {
-            max-width: 1100px;
-            margin: 20px auto;
-            border-radius: 12px;
-            overflow: hidden;
-            position: relative;
-        }
+.slide {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
 
-        .slides {
-            display: flex;
-            transition: transform 0.5s ease;
-        }
+.slide.active {
+    opacity: 1;
+}
 
-        .slide img {
-            width: 100%;
-            height: 320px;
-            object-fit: cover;
-        }
+.hero::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(62, 39, 35, 0.55);
+}
 
-        .overlay {
-            position: absolute;
-            bottom: 0;
-            padding: 20px;
-            background: linear-gradient(to top, rgba(0,0,0,0.6), transparent);
-            color: white;
-        }
+.hero-content {
+    position: relative;
+    color: white;
+    text-align: center;
+    z-index: 2;
+    margin-top: 90px;
+}
 
-        .prev, .next {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.4);
-            border: none;
-            color: white;
-            font-size: 20px;
-            padding: 10px;
-            cursor: pointer;
-            border-radius: 50%;
-        }
+.dots {
+    position: absolute;
+    bottom: 12px;
+    width: 100%;
+    text-align: center;
+    z-index: 2;
+}
 
-        .prev { left: 10px; }
-        .next { right: 10px; }
+.dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin: 4px;
+    background: #ddd;
+    border-radius: 50%;
+}
 
-        /* CONTENEDOR */
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 20px;
-        }
+.dot.active {
+    background: #FFB74D;
+}
 
-        /* BUSCADOR */
-        .search-box input {
-            width: 100%;
-            padding: 12px;
-            border-radius: 20px;
-            border: 1px solid #ddd;
-            margin-bottom: 15px;
-        }
+/* FILTROS */
+.filters {
+    background: white;
+    margin: -40px auto 20px;
+    padding: 16px;
+    max-width: 1100px;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
 
-        /* FILTROS */
-        .filters {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-            margin-bottom: 20px;
-        }
+.filters input, .filters select {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
 
-        select {
-            padding: 10px;
-            border-radius: 6px;
-            border: 1px solid #ddd;
-        }
+.search-box {
+    display: flex;
+    gap: 8px;
+}
 
-        /* CARDS */
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 20px;
-        }
+.search-box button {
+    background: #5d4037;
+    color: white;
+    border: none;
+    padding: 8px;
+    border-radius: 6px;
+    cursor: pointer;
+}
 
-        .card {
-            background: var(--card);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-            transition: 0.2s;
-        }
+/* CARDS */
+.container {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
 
-        .card:hover {
-            transform: translateY(-5px);
-        }
+.cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
 
-        .card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
+.card {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
 
-        .card-content {
-            padding: 14px;
-        }
+.card img {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
 
-        .card h3 {
-            margin: 0;
-            color: var(--primary);
-        }
+.card-content {
+    padding: 12px;
+}
 
-        .tag {
-            display: inline-block;
-            margin-top: 8px;
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 12px;
-        }
+.card h3 {
+    margin: 0;
+    color: #2e7d32;
+}
 
-        .pendiente { background: #e0e0e0; }
-        .en-proceso { background: #ffe0b2; }
-        .adoptado { background: #c8e6c9; }
+/* FOOTER */
+footer {
+    background: #3E2723;
+    color: #f1f1f1;
+    margin-top: 40px;
+}
 
-        /* FOOTER */
-        footer {
-            background: #1b1f23;
-            color: #e0e0e0;
-            margin-top: 60px;
-        }
+.footer-container {
+    max-width: 1100px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+}
 
-        .footer-container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 40px 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-        }
+footer h3 {
+    color: #FFB74D;
+}
 
-        .footer-bottom {
-            text-align: center;
-            padding: 10px;
-            font-size: 12px;
-            border-top: 1px solid #333;
-        }
-    </style>
+footer a {
+    color: #ddd;
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: #FFB74D;
+}
+
+.footer-bottom {
+    text-align: center;
+    padding: 10px;
+    border-top: 1px solid #555;
+}
+</style>
 </head>
 
 <body>
 
 <header>
-    <h2>🐶 Adopción de Perritos</h2>
-    <a href="/logout" class="logout">Cerrar sesión</a>
+    <h1>🐶 Candy</h1>
+    <button class="logout">Cerrar sesión</button>
 </header>
 
-<!-- CARRUSEL -->
-<div class="carousel">
+<!-- HERO -->
+<div class="hero">
+
     <div class="slides">
-        <div class="slide"><img src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b"></div>
-        <div class="slide"><img src="https://images.unsplash.com/photo-1518717758536-85ae29035b6d"></div>
-        <div class="slide"><img src="https://images.unsplash.com/photo-1507149833265-60c372daea22"></div>
+        <div class="slide active" style="background-image: url('https://st3.depositphotos.com/1913515/32088/i/450/depositphotos_320883414-stock-photo-two-happy-dogs-playing-together.jpg');"></div>
+        <div class="slide" style="background-image: url('https://i.pinimg.com/originals/de/53/5e/de535e1c735bdf5fb46f3623d019056d.jpg');"></div>
+        <div class="slide" style="background-image: url('https://www.shutterstock.com/image-photo/two-wet-dogs-carrying-one-600nw-2657886009.jpg');"></div>
     </div>
 
-    <button class="prev">&#10094;</button>
-    <button class="next">&#10095;</button>
+    <div class="hero-content">
+        <h2>Encuentra tu mejor amigo</h2>
+        <p>Adopta, no compres 🐾</p>
+    </div>
+
+    <div class="dots">
+        <span class="dot active"></span>
+        <span class="dot"></span>
+        <span class="dot"></span>
+    </div>
+
 </div>
 
-<div class="container">
+<!-- FILTROS -->
+<div class="filters">
+    <input type="text" placeholder="Ubicación">
+    
+    <select>
+        <option>Tamaño</option>
+        <option>Pequeño</option>
+        <option>Mediano</option>
+        <option>Grande</option>
+    </select>
 
-    <!-- BUSCADOR -->
+    <select>
+        <option>Sexo</option>
+        <option>Macho</option>
+        <option>Hembra</option>
+    </select>
+
     <div class="search-box">
-        <input type="text" placeholder="🔍 Buscar por nombre, raza o ubicación...">
+        <input type="text" placeholder="Buscar...">
+        <button>Buscar</button>
     </div>
+</div>
 
-    <!-- FILTROS -->
-    <div class="filters">
-        <select>
-            <option>Tamaño</option>
-            <option>Pequeño</option>
-            <option>Mediano</option>
-            <option>Grande</option>
-        </select>
-
-        <select>
-            <option>Sexo</option>
-            <option>Macho</option>
-            <option>Hembra</option>
-        </select>
-
-        <select>
-            <option>Estado</option>
-            <option>Pendiente</option>
-            <option>En proceso</option>
-            <option>Adoptado</option>
-        </select>
-    </div>
-
-    <!-- CARDS -->
+<!-- CARDS -->
+<div class="container">
     <div class="cards">
         {% for p in perritos %}
         <div class="card">
-            <img src="{{ p.foto }}" alt="">
-
+            <img src="{{ p.foto }}" alt="perrito">
             <div class="card-content">
                 <h3>{{ p.nombre }}</h3>
                 <p>{{ p.tamano }} • {{ p.sexo }}</p>
                 <p>{{ p.raza }} • {{ p.edad }} años</p>
                 <p>📍 {{ p.ubicacion }}</p>
                 <p>📞 {{ p.contacto }}</p>
-
-                <span class="tag {{ p.estado|lower|replace(' ', '-') }}">
-                    {{ p.estado }}
-                </span>
             </div>
         </div>
         {% endfor %}
     </div>
-
 </div>
 
+<!-- FOOTER -->
 <footer>
     <div class="footer-container">
+
         <div>
-            <h3>🐶 Adopción</h3>
-            <p>Adoptar es salvar una vida 🐾</p>
+            <h3>🐶 Candy</h3>
+            <p>Endulzando vidas con amor perruno 🐾</p>
         </div>
 
         <div>
-            <p>Facebook</p>
-            <p>Instagram</p>
-            <p>WhatsApp</p>
+            <h4>Redes</h4>
+            <p><a href="#">Facebook: /CandyAdopciones</a></p>
+            <p><a href="#">Instagram: @candy.adopta</a></p>
+            <p><a href="#">WhatsApp: +57 310 456 7890</a></p>
         </div>
 
         <div>
-            <p>Privacidad</p>
-            <p>Términos</p>
-            <p>Datos</p>
+            <h4>Legal</h4>
+            <p><a href="#">Política de privacidad</a></p>
+            <p><a href="#">Términos</a></p>
         </div>
+
     </div>
 
     <div class="footer-bottom">
-        © 2026 Adopción de Perritos
+        © 2026 Candy - Todos los derechos reservados
     </div>
 </footer>
 
 <script>
 let index = 0;
-const slides = document.querySelector(".slides");
-const totalSlides = document.querySelectorAll(".slide").length;
+const slides = document.querySelectorAll('.slide');
+const dots = document.querySelectorAll('.dot');
 
-function updateSlide() {
-    slides.style.transform = `translateX(-${index * 100}%)`;
+function showSlide(i) {
+    slides.forEach((slide, idx) => {
+        slide.classList.remove('active');
+        dots[idx].classList.remove('active');
+    });
+
+    slides[i].classList.add('active');
+    dots[i].classList.add('active');
 }
 
-document.querySelector(".next").onclick = () => {
-    index = (index + 1) % totalSlides;
-    updateSlide();
-};
+function autoSlide() {
+    index = (index + 1) % slides.length;
+    showSlide(index);
+}
 
-document.querySelector(".prev").onclick = () => {
-    index = (index - 1 + totalSlides) % totalSlides;
-    updateSlide();
-};
-
-setInterval(() => {
-    index = (index + 1) % totalSlides;
-    updateSlide();
-}, 4000);
+setInterval(autoSlide, 4000);
 </script>
 
 </body>
