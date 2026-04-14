@@ -1,160 +1,166 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Candy - Adopción</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Candy - Adopción</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', sans-serif;
-        }
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
 
-        body {
-            background: #f5f5f5;
-        }
+body {
+    background: #f5f5f5;
+}
 
-        /* NAVBAR */
-        header {
-            background: #2e7d32;
-            color: white;
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+/* NAVBAR */
+header {
+    background: #2e7d32;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 
-        header h1 {
-            font-size: 24px;
-        }
+.logout {
+    background: #5d4037;
+    border: none;
+    padding: 10px 15px;
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+}
 
-        .logout {
-            background: #5d4037;
-            border: none;
-            padding: 10px 15px;
-            color: white;
-            border-radius: 6px;
-            cursor: pointer;
-        }
+/* CARRUSEL */
+.carousel {
+    height: 420px; /* 🔥 MÁS ALTO */
+    overflow: hidden;
+}
 
-        /* CARRUSEL */
-        .carousel {
-            position: relative;
-            height: 350px;
-            overflow: hidden;
-        }
+.slides {
+    display: flex;
+    width: 300%;
+    height: 100%;
+    animation: slide 15s infinite;
+}
 
-        .slides {
-            display: flex;
-            width: 300%;
-            height: 100%;
-            animation: slide 15s infinite;
-        }
+.slide {
+    width: 100%;
+    position: relative;
+}
 
-        .slide {
-            width: 100%;
-            position: relative;
-        }
+/* 🔥 AJUSTE CLAVE */
+.slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 
-        .slide img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
-            filter: brightness(70%);
-        }
+    /* 👇 ESTO ES LO IMPORTANTE */
+    object-position: center 30%; /* sube el enfoque (evita cortar cabeza) */
 
-        .overlay {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            text-align: center;
-        }
+    transform: scale(0.95); /* simula "alejar" la imagen */
+    filter: brightness(65%);
+}
 
-        .overlay h2 {
-            font-size: 32px;
-            margin-bottom: 10px;
-        }
+.overlay {
+    position: absolute;
+    bottom: 40px; /* 🔥 BAJAMOS TEXTO */
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    text-align: center;
+}
 
-        .overlay p {
-            font-size: 18px;
-        }
+.overlay h2 {
+    font-size: 30px;
+}
 
-        /* SLIDE SOLO TEXTO */
-        .slide-text {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, #5d4037, #8d6e63);
-            color: white;
-            text-align: center;
-            padding: 20px;
-        }
+.overlay p {
+    font-size: 16px;
+}
 
-        .slide-text h2 {
-            font-size: 32px;
-        }
+/* SLIDE TEXTO */
+.slide-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #5d4037, #8d6e63);
+    color: white;
+    text-align: center;
+}
 
-        .slide-text p {
-            margin-top: 10px;
-        }
+/* ANIMACIÓN */
+@keyframes slide {
+    0% { margin-left: 0; }
+    30% { margin-left: 0; }
 
-        @keyframes slide {
-            0% { margin-left: 0; }
-            30% { margin-left: 0; }
+    33% { margin-left: -100%; }
+    63% { margin-left: -100%; }
 
-            33% { margin-left: -100%; }
-            63% { margin-left: -100%; }
+    66% { margin-left: -200%; }
+    96% { margin-left: -200%; }
 
-            66% { margin-left: -200%; }
-            96% { margin-left: -200%; }
+    100% { margin-left: 0; }
+}
 
-            100% { margin-left: 0; }
-        }
+/* FILTROS */
+.filters {
+    background: white;
+    padding: 20px;
+    margin: -40px auto 20px;
+    width: 90%;
+    border-radius: 12px;
+    display: flex;
+    gap: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    flex-wrap: wrap;
+}
 
-        /* CONTENIDO */
-        .container {
-            padding: 40px;
-        }
+.filters input, .filters select {
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
 
-        .cards {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
+/* CONTENIDO */
+.container {
+    padding: 20px 40px;
+}
 
-        .card {
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            width: 250px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
+.cards {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
 
-        .card h3 {
-            color: #2e7d32;
-        }
+.card {
+    background: white;
+    padding: 15px;
+    border-radius: 10px;
+    width: 250px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
 
-        /* FOOTER */
-        footer {
-            margin-top: 50px;
-            background: linear-gradient(135deg, #3e2723, #5d4037);
-            color: white;
-            padding: 30px;
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-        }
+.card h3 {
+    color: #2e7d32;
+}
 
-        footer div {
-            margin: 10px;
-        }
-    </style>
+/* FOOTER */
+footer {
+    margin-top: 50px;
+    background: linear-gradient(135deg, #3e2723, #5d4037);
+    color: white;
+    padding: 30px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+</style>
 </head>
 
 <body>
@@ -168,7 +174,6 @@
 <div class="carousel">
     <div class="slides">
 
-        <!-- SLIDE 1 -->
         <div class="slide">
             <img src="https://st3.depositphotos.com/1913515/32088/i/450/depositphotos_320883414-stock-photo-two-happy-dogs-playing-together.jpg">
             <div class="overlay">
@@ -177,7 +182,6 @@
             </div>
         </div>
 
-        <!-- SLIDE 2 -->
         <div class="slide">
             <img src="https://www.shutterstock.com/image-photo/two-wet-dogs-carrying-one-600nw-2657886009.jpg">
             <div class="overlay">
@@ -186,7 +190,6 @@
             </div>
         </div>
 
-        <!-- SLIDE 3 TEXTO -->
         <div class="slide slide-text">
             <div>
                 <h2>Cambia una vida hoy</h2>
@@ -195,6 +198,21 @@
         </div>
 
     </div>
+</div>
+
+<!-- FILTROS + BUSCADOR -->
+<div class="filters">
+    <input type="text" placeholder="🔍 Buscar...">
+    <select>
+        <option>Ubicación</option>
+        <option>Bogotá</option>
+        <option>Medellín</option>
+    </select>
+    <select>
+        <option>Edad</option>
+        <option>Cachorro</option>
+        <option>Adulto</option>
+    </select>
 </div>
 
 <!-- LISTA -->
@@ -216,7 +234,6 @@
     </div>
 </div>
 
-<!-- FOOTER -->
 <footer>
     <div>
         <h3>🐶 Candy</h3>
@@ -233,7 +250,7 @@
     <div>
         <h4>Legal</h4>
         <p>Política de privacidad</p>
-        <p>Términos y condiciones</p>
+        <p>Términos</p>
     </div>
 </footer>
 
