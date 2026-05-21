@@ -1,4 +1,3 @@
-# src/routers/perrito_router.py
 import os
 import shutil
 from fastapi import APIRouter, Request, Form, status, HTTPException, File, UploadFile
@@ -7,36 +6,53 @@ from fastapi.responses import RedirectResponse
 
 from src.controllers.perrito_controller import (
     obtener_perritos, crear_perrito, eliminar_perrito,
-    obtener_perrito_por_id, actualizar_perrito
+    obtener_perrito_por_id, actualizar_perrito, buscar_perritos # <--- Importamos buscar_perritos
 )
 from src.models.perrito import Perrito
 
 router = APIRouter(tags=["Perritos"])
 
-# CONFIGURACIÓN ROBUSTA DE TEMPLATES (Ruta absoluta)
+# Configuración absoluta de templates
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 
-# 1. VER LA LISTA
+# 1. LISTA CON BUSCADOR (Recibe criterio y valor)
 @router.get("/lista")
-def mostrar_lista(request: Request):
+def mostrar_lista(request: Request, criterio: str = None, valor: str = None):
     usuario = request.cookies.get("user_session")
-    lista_perritos = obtener_perritos()
+    
+    # Si el usuario usó el buscador, filtramos. Si no, traemos todos.
+    if criterio and valor:
+        lista_perritos = buscar_perritos(criterio, valor)
+    else:
+        lista_perritos = obtener_perritos()
+    
     return templates.TemplateResponse("lista.html", {
         "request": request, 
         "perritos": lista_perritos,
-        "usuario_logeado": usuario
+        "usuario_logeado": usuario,
+        "criterio_actual": criterio,
+        "valor_actual": valor
     })
 
-# 2. VER REGISTRO
+# 2. VER DETALLE
+@router.get("/perrito/{id}")
+def ver_detalle_perrito(request: Request, id: int):
+    perrito = obtener_perrito_por_id(id)
+    if not perrito: raise HTTPException(status_code=404)
+    return templates.TemplateResponse("detalle.html", {
+        "request": request, 
+        "perrito": perrito, 
+        "usuario_logeado": request.cookies.get("user_session")
+    })
+
+# 3. REGISTRO
 @router.get("/registro")
 def mostrar_registro(request: Request):
-    usuario = request.cookies.get("user_session")
-    if not usuario:
-        return RedirectResponse(url="/?error=Debes+iniciar+sesion", status_code=303)
+    if not request.cookies.get("user_session"):
+        return RedirectResponse(url="/?error=Inicia+sesion", status_code=303)
     return templates.TemplateResponse("registro.html", {"request": request})
 
-# 3. GUARDAR PERRITO
 @router.post("/perritos")
 async def guardar_nuevo_perrito(
     request: Request, nombre: str = Form(...), raza: str = Form(...),
@@ -45,11 +61,8 @@ async def guardar_nuevo_perrito(
     vacunado: str = Form("No"), foto: UploadFile = File(...)
 ):
     usuario = request.cookies.get("user_session")
-    if not usuario: return RedirectResponse(url="/", status_code=303)
-
     nombre_archivo = f"{usuario}_{foto.filename}"
     ruta_destino = os.path.join(BASE_DIR, "static", "uploads", nombre_archivo)
-    
     try:
         with open(ruta_destino, "wb") as buffer:
             shutil.copyfileobj(foto.file, buffer)
@@ -65,15 +78,7 @@ async def guardar_nuevo_perrito(
     crear_perrito(nuevo)
     return RedirectResponse(url="/lista", status_code=303)
 
-# 4. DETALLE, EDITAR Y BORRAR
-@router.get("/perrito/{id}")
-def ver_detalle_perrito(request: Request, id: int):
-    perrito = obtener_perrito_por_id(id)
-    if not perrito: raise HTTPException(status_code=404)
-    return templates.TemplateResponse("detalle.html", {
-        "request": request, "perrito": perrito, "usuario_logeado": request.cookies.get("user_session")
-    })
-
+# 4. EDICIÓN (Protegida para el dueño)
 @router.get("/editar/{id}")
 def mostrar_formulario_edicion(request: Request, id: int):
     usuario = request.cookies.get("user_session")
@@ -92,7 +97,6 @@ async def procesar_edicion(
     usuario = request.cookies.get("user_session")
     perrito_actual = obtener_perrito_por_id(id)
     nombre_foto = perrito_actual.foto
-
     if foto and foto.filename:
         nombre_foto = f"{usuario}_{foto.filename}"
         ruta = os.path.join(BASE_DIR, "static", "uploads", nombre_foto)
@@ -107,6 +111,7 @@ async def procesar_edicion(
     actualizar_perrito(id, datos_nuevos, usuario)
     return RedirectResponse(url="/lista", status_code=303)
 
+# 5. BORRAR
 @router.get("/borrar/{id}")
 def borrar_perrito_ruta(request: Request, id: int):
     usuario = request.cookies.get("user_session")

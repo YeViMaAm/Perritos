@@ -2,19 +2,43 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Candy - Adopción de Perritos</title>
+<title>Candy - Catálogo de Adopción</title>
 <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
-    body { background: #f5f5f5; color: #333; }
-    header { background: #2e7d32; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
-    .logout-btn { background: #5d4037; border: none; padding: 8px 15px; color: white; border-radius: 6px; cursor: pointer; text-decoration: none; font-size: 14px; }
-    .cards { display: flex; gap: 20px; flex-wrap: wrap; padding: 40px; justify-content: center; }
-    .card { background: white; padding: 15px; border-radius: 10px; width: 260px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
-    .btn-detalle { background: #2e7d32; color: white; text-align: center; padding: 10px; border-radius: 6px; text-decoration: none; margin-top: 15px; font-weight: bold; }
-    footer { margin-top: 50px; background: #3e2723; color: white; padding: 40px; text-align: center; }
+/* TU CSS ORIGINAL */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+body { background: #f5f5f5; }
+header { background: #2e7d32; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+.logout-btn { background: #5d4037; border: none; padding: 8px 15px; color: white; border-radius: 6px; cursor: pointer; text-decoration: none; font-size: 14px; }
+
+/* CARRUSEL ORIGINAL */
+.carousel { height: 380px; overflow: hidden; position: relative; }
+.slides { display: flex; width: 200%; height: 100%; animation: slide 12s infinite; }
+.slide { width: 100%; position: relative; }
+.slide img { width: 100%; height: 100%; object-fit: cover; filter: brightness(65%); }
+.overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: white; text-align: center; }
+@keyframes slide { 0% { margin-left: 0; } 45% { margin-left: 0; } 50% { margin-left: -100%; } 100% { margin-left: 0; } }
+
+/* BUSCADOR INTELIGENTE */
+.filters { background: white; padding: 20px; margin: 40px auto; width: 90%; border-radius: 12px; display: flex; gap: 15px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); align-items: center; }
+.filters select, .filters input { padding: 10px; border-radius: 6px; border: 1px solid #ccc; }
+
+/* TARJETAS ORIGINALES CON MEJORAS */
+.cards { display: flex; gap: 20px; flex-wrap: wrap; padding: 20px 40px; justify-content: center; }
+.card { background: white; padding: 15px; border-radius: 10px; width: 260px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+.btn-detalle { background: #2e7d32; color: white; text-align: center; padding: 10px; border-radius: 6px; text-decoration: none; margin-top: 15px; font-weight: bold; }
+
+.admin-actions { display: flex; justify-content: space-between; margin-top: 12px; padding-top: 10px; border-top: 1px solid #eee; }
+.btn-edit { color: #2e7d32; text-decoration: none; font-size: 13px; font-weight: bold; }
+.btn-delete { color: #c62828; text-decoration: none; font-size: 13px; font-weight: bold; }
+
+/* TU FOOTER ORIGINAL */
+footer { margin-top: 50px; background: linear-gradient(135deg, #3e2723, #5d4037); color: white; padding: 40px; display: flex; justify-content: space-around; }
+footer h3, footer h4 { margin-bottom: 10px; }
+footer p { font-size: 14px; opacity: 0.9; }
 </style>
 </head>
 <body>
+
 <header>
     <h1>🐶 Candy</h1>
     <div>
@@ -28,23 +52,116 @@
     </div>
 </header>
 
-<div class="main">
-    <div class="cards">
-        {% for perrito in perritos %}
-        <div class="card">
-            <img src="/static/uploads/{{ perrito.foto if perrito.foto else 'default.jpg' }}" style="width:100%; border-radius:8px; height:160px; object-fit:cover;">
-            <h3 style="color:#2e7d32; margin-top:15px;">{{ perrito.nombre }}</h3>
-            <p>{{ perrito.raza }} • {{ perrito.edad }} años</p>
-            <a href="/perrito/{{ perrito.id }}" class="btn-detalle">Ver detalles</a>
+<!-- CARRUSEL ORIGINAL -->
+<div class="carousel">
+    <div class="slides">
+        <div class="slide">
+            <img src="https://st3.depositphotos.com/1913515/32088/i/450/depositphotos_320883414-stock-photo-two-happy-dogs-playing-together.jpg">
+            <div class="overlay"><h2>Encuentra tu mejor amigo</h2></div>
         </div>
-        {% else %}
-            <p>No hay perritos registrados aún. 🐾</p>
-        {% endfor %}
+        <div class="slide">
+            <img src="https://www.shutterstock.com/image-photo/two-wet-dogs-carrying-one-600nw-2657886009.jpg">
+            <div class="overlay"><h2>Amor sin condiciones</h2></div>
+        </div>
     </div>
 </div>
 
+<!-- BUSCADOR DINÁMICO -->
+<div class="filters">
+    <form action="/lista" method="get" style="display: flex; gap: 10px; width: 100%; align-items: center;">
+        <label style="font-weight: bold; color: #5d4037;">Filtrar por:</label>
+        
+        <select name="criterio" id="criterio" onchange="toggleBusqueda()">
+            <option value="nombre" {% if criterio_actual == 'nombre' %}selected{% endif %}>Nombre</option>
+            <option value="raza" {% if criterio_actual == 'raza' %}selected{% endif %}>Raza</option>
+            <option value="ubicacion" {% if criterio_actual == 'ubicacion' %}selected{% endif %}>Ubicación</option>
+            <option value="tamano" {% if criterio_actual == 'tamano' %}selected{% endif %}>Tamaño</option>
+        </select>
+
+        <div id="busquedaContainer" style="flex: 1;">
+            <input type="text" name="valor" id="valorTexto" value="{{ valor_actual if valor_actual else '' }}" placeholder="Escribe aquí..." style="width: 100%;">
+            
+            <select name="valor" id="valorSelect" style="display: none; width: 100%;">
+                <option value="Pequeño" {% if valor_actual == 'Pequeño' %}selected{% endif %}>Pequeño</option>
+                <option value="Mediano" {% if valor_actual == 'Mediano' %}selected{% endif %}>Mediano</option>
+                <option value="Grande" {% if valor_actual == 'Grande' %}selected{% endif %}>Grande</option>
+            </select>
+        </div>
+
+        <button type="submit" style="background:#2e7d32; color:white; border:none; padding:10px 20px; border-radius:6px; cursor:pointer; font-weight: bold;">🔍 Buscar</button>
+        {% if criterio_actual %}
+            <a href="/lista" style="text-decoration: none; color: #888; font-size: 12px;">Limpiar</a>
+        {% endif %}
+    </form>
+</div>
+
+<!-- LISTADO DE TARJETAS -->
+<div class="cards">
+    {% for perrito in perritos %}
+    <div class="card">
+        <img src="/static/uploads/{{ perrito.foto if perrito.foto else 'default.jpg' }}" style="width:100%; border-radius:8px; height:150px; object-fit:cover;">
+        
+        <h3 style="color:#2e7d32; margin-top:15px;">{{ perrito.nombre }}</h3>
+        <p style="font-size: 14px; color: #666;">{{ perrito.raza }} • {{ perrito.edad }} años</p>
+        <p style="font-size: 14px; margin-top: 5px;">📍 {{ perrito.ubicacion }}</p>
+        
+        <a href="/perrito/{{ perrito.id }}" class="btn-detalle">Ver Detalles</a>
+
+        <!-- BOTONES SOLO PARA EL DUEÑO -->
+        {% if usuario_logeado == perrito.registrado_por %}
+        <div class="admin-actions">
+            <a href="/editar/{{ perrito.id }}" class="btn-edit">✏️ Editar</a>
+            <a href="/borrar/{{ perrito.id }}" class="btn-delete" onclick="return confirm('¿Seguro que quieres borrar a {{ perrito.nombre }}?')">🗑️ Eliminar</a>
+        </div>
+        {% endif %}
+    </div>
+    {% else %}
+        <p style="text-align: center; width: 100%; padding: 50px; color: #888;">No se encontraron resultados. 🐾</p>
+    {% endfor %}
+</div>
+
+<!-- TU FOOTER ORIGINAL -->
 <footer>
-    <p>🐶 Candy - Endulzando vidas con amor perruno 🐾</p>
+    <div>
+        <h3>🐶 Candy</h3>
+        <p>Endulzando vidas con amor perruno 🐾</p>
+    </div>
+
+    <div>
+        <h4>Redes</h4>
+        <p>Facebook: /CandyAdopciones</p>
+        <p>Instagram: @candy.adopta</p>
+        <p>WhatsApp: +57 310 456 7890</p>
+    </div>
+
+    <div>
+        <h4>Legal</h4>
+        <p>Política de privacidad</p>
+        <p>Términos</p>
+    </div>
 </footer>
+
+<script>
+function toggleBusqueda() {
+    const criterio = document.getElementById('criterio').value;
+    const txt = document.getElementById('valorTexto');
+    const sel = document.getElementById('valorSelect');
+
+    if (criterio === 'tamano') {
+        txt.style.display = 'none';
+        txt.disabled = true;
+        sel.style.display = 'block';
+        sel.disabled = false;
+    } else {
+        txt.style.display = 'block';
+        txt.disabled = false;
+        sel.style.display = 'none';
+        sel.disabled = true;
+    }
+}
+// Inicializar al cargar
+window.onload = toggleBusqueda;
+</script>
+
 </body>
 </html>
