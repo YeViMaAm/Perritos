@@ -1,8 +1,7 @@
-# src/controllers/usuario_controller.py
 from sqlmodel import select
 from src.database import db_singleton
 from src.models.usuario import Usuario
-# IMPORTANTE: No olvides estas líneas para que funcionen los 'raise'
+
 from src.exceptions import UsuarioNoExiste, ContrasenaIncorrecta
 
 def crear_usuario(nuevo_usuario: Usuario):
@@ -11,7 +10,7 @@ def crear_usuario(nuevo_usuario: Usuario):
             session.add(nuevo_usuario)
             session.commit()
             return True
-        except: # Si el usuario ya existe (unique constraint)
+        except:
             return False
 
 def autenticar_usuario(username_ingresado, password_ingresada):

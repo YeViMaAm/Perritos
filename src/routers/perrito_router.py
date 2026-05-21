@@ -4,7 +4,7 @@ from fastapi import APIRouter, Request, Form, status, HTTPException, File, Uploa
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
 
-# Importamos controladores y modelos
+# se importo controladores y modelos
 from src.controllers.perrito_controller import (
     obtener_perritos, crear_perrito, eliminar_perrito,
     obtener_perrito_por_id, actualizar_perrito, buscar_perritos
@@ -13,7 +13,7 @@ from src.models.perrito import Perrito
 
 router = APIRouter(tags=["Perritos"])
 
-# CONFIGURACIÓN ABSOLUTA (Vital para que Azure encuentre la carpeta templates)
+#para que Azure encuentre la carpeta templates
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 

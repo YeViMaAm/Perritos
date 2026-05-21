@@ -3,9 +3,9 @@
 # El puerto lo asigna Azure automáticamente
 #PORT=${PORT:-8000}
 #echo "=========================================="
-#echo "🚀 Iniciando FastAPI en el puerto $PORT"
-#echo "📁 Archivo principal: main.py"
-#echo "🔧 Instancia de FastAPI: app"
+#echo "Iniciando FastAPI en el puerto $PORT"
+#echo "Archivo principal: main.py"
+#echo "Instancia de FastAPI: app"
 #echo "=========================================="
 # Iniciar la aplicación con Gunicorn
 # IMPORTANTE: Si su archivo no es main.py o la instancia no es app,
@@ -18,7 +18,7 @@
 
 PORT=${PORT:-8000}
 
-echo "🚀 Iniciando FastAPI en el puerto $PORT"
+echo "Iniciando FastAPI en el puerto $PORT"
 
 exec gunicorn src.main:app \
   --worker-class uvicorn.workers.UvicornWorker \

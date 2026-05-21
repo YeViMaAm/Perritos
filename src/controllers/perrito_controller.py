@@ -8,7 +8,7 @@ def obtener_perritos():
         statement = select(Perrito)
         return session.exec(statement).all()
 
-# --- NUEVA FUNCIÓN DE BÚSQUEDA ---
+
 def buscar_perritos(criterio: str, valor: str):
     """Filtra perritos por nombre, raza, ubicación o tamaño"""
     with db_singleton.get_session() as session:

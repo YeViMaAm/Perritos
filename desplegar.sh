@@ -4,15 +4,15 @@
 NOMBRE_APP="candy-perritos"
 RESOURCE_GROUP="yvmalaver90_rg_2805"
 
-echo "📦 Iniciando empaquetado para Azure..."
+echo "Iniciando empaquetado para Azure..."
 
-# 2. Borrar zip viejo si existe
+# 2. Borrar el zip viejo si existe
 rm -f deploy.zip
 
-# 3. Empaquetar todo (Excluimos lo innecesario para que sea ligero)
+# 3. se Empaquetar todo
 zip -r deploy.zip . -x "*.git*" "*__pycache__*" "*.venv*" "*.db" "static/uploads/*" ".pytest_cache/*"
 
-echo "🚀 Subiendo a Azure App Service: $NOMBRE_APP..."
+echo "Subiendo a Azure App Service: $NOMBRE_APP..."
 
 # 4. Subir a Azure
 az webapp deployment source config-zip \
@@ -23,5 +23,5 @@ az webapp deployment source config-zip \
 # 5. Limpiar archivo local
 rm deploy.zip
 
-echo "✅ Despliegue completado con éxito."
-echo "🔗 URL: https://$NOMBRE_APP.azurewebsites.net"
+echo "OK Despliegue completado con éxito."
+echo "URL: https://$NOMBRE_APP.azurewebsites.net"

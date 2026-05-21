@@ -12,5 +12,4 @@ class Perrito(SQLModel, table=True):
     contacto: str
     vacunado: bool
     foto: Optional[str] = None
-    # Conecta al perrito con el nombre de usuario que lo creó
     registrado_por: Optional[str] = None
