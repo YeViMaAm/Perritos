@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Candy - Adopción de Perritos</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+    body { background: #f5f5f5; color: #333; }
+    header { background: #2e7d32; color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+    .logout-btn { background: #5d4037; border: none; padding: 8px 15px; color: white; border-radius: 6px; cursor: pointer; text-decoration: none; font-size: 14px; }
+    .cards { display: flex; gap: 20px; flex-wrap: wrap; padding: 40px; justify-content: center; }
+    .card { background: white; padding: 15px; border-radius: 10px; width: 260px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+    .btn-detalle { background: #2e7d32; color: white; text-align: center; padding: 10px; border-radius: 6px; text-decoration: none; margin-top: 15px; font-weight: bold; }
+    footer { margin-top: 50px; background: #3e2723; color: white; padding: 40px; text-align: center; }
+</style>
+</head>
+<body>
+<header>
+    <h1>🐶 Candy</h1>
+    <div>
+        {% if usuario_logeado %}
+            <span style="margin-right: 10px;">Hola, <b>{{ usuario_logeado }}</b></span>
+            <a href="/registro" class="logout-btn" style="background: #FFB74D; color: black; font-weight: bold;">+ Registrar</a>
+            <a href="/logout" class="logout-btn">Cerrar sesión</a>
+        {% else %}
+            <a href="/" class="logout-btn">Iniciar Sesión</a>
+        {% endif %}
+    </div>
+</header>
+
+<div class="main">
+    <div class="cards">
+        {% for perrito in perritos %}
+        <div class="card">
+            <img src="/static/uploads/{{ perrito.foto if perrito.foto else 'default.jpg' }}" style="width:100%; border-radius:8px; height:160px; object-fit:cover;">
+            <h3 style="color:#2e7d32; margin-top:15px;">{{ perrito.nombre }}</h3>
+            <p>{{ perrito.raza }} • {{ perrito.edad }} años</p>
+            <a href="/perrito/{{ perrito.id }}" class="btn-detalle">Ver detalles</a>
+        </div>
+        {% else %}
+            <p>No hay perritos registrados aún. 🐾</p>
+        {% endfor %}
+    </div>
+</div>
+
+<footer>
+    <p>🐶 Candy - Endulzando vidas con amor perruno 🐾</p>
+</footer>
+</body>
+</html>
