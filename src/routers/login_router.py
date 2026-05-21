@@ -23,9 +23,10 @@ templates = Jinja2Templates(directory=os.path.join(BASE_DIR, "templates"))
 @router.get("/")
 def mostrar_login(request: Request, error: str = None, msg: str = None):
     # CAMBIO CRÍTICO PARA AZURE: usamos name= y context=
-    return templates.TemplateResponse(
+     return templates.TemplateResponse(
+        request=request, 
         name="index.html", 
-        context={"request": request, "error": error, "msg": msg}
+        context={"error": error, "msg": msg}
     )
 
 # 2. PROCESAR EL LOGIN
