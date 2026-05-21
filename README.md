@@ -1,1 +1,2 @@
 # Perritos
+# ./desplegar.sh
