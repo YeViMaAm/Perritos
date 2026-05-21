@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Registrar Perrito - Candy</title>
+<title>Editar a {{ perrito.nombre }} - Candy</title>
 <style>
 /* MANTENEMOS TODO TU CSS EXACTAMENTE IGUAL */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
@@ -13,7 +13,8 @@ header { background: #2e7d32; color: white; padding: 15px 30px; display: flex; j
 .title { font-size: 22px; color: #2e7d32; }
 .section-title { margin-top: 20px; color: #5d4037; font-weight: bold; }
 input, select { width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc; margin-top: 5px; }
-button { margin-top: 25px; width: 100%; background: #2e7d32; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+.btn-update { margin-top: 25px; width: 100%; background: #FFB74D; color: black; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 16px; }
+.btn-update:hover { background: #ffa726; }
 footer { margin-top: 50px; background: linear-gradient(135deg, #3e2723, #5d4037); color: white; padding: 40px; display: flex; justify-content: space-around; }
 </style>
 </head>
@@ -24,49 +25,60 @@ footer { margin-top: 50px; background: linear-gradient(135deg, #3e2723, #5d4037)
 </header>
 
 <div class="form-box">
-    <div class="title">Registrar Perrito</div>
-    <p style="color: #666; font-size: 14px;">Completa la información para publicar en adopción</p>
+    <div class="title">Editar publicación de {{ perrito.nombre }}</div>
+    <p style="color: #666; font-size: 14px;">Modifica los campos que necesites actualizar</p>
 
-    <!-- CAMBIO TÉCNICO 1: Se añade enctype para permitir subida de archivos -->
-    <form action="/perritos" method="post" enctype="multipart/form-data">
+    <!-- IMPORTANTE: El action apunta al ID específico y mantenemos el enctype -->
+    <form action="/editar/{{ perrito.id }}" method="post" enctype="multipart/form-data">
         <div class="section-title">Datos del perrito</div>
         
         <label>Nombre</label>
-        <input type="text" name="nombre" required>
+        <input type="text" name="nombre" value="{{ perrito.nombre }}" required>
 
         <div style="display: flex; gap: 15px;">
             <div style="flex: 1;">
                 <label>Tamaño</label>
-                <select name="tamano"><option>Pequeño</option><option>Mediano</option><option>Grande</option></select>
+                <select name="tamano">
+                    <option {% if perrito.tamano == 'Pequeño' %}selected{% endif %}>Pequeño</option>
+                    <option {% if perrito.tamano == 'Mediano' %}selected{% endif %}>Mediano</option>
+                    <option {% if perrito.tamano == 'Grande' %}selected{% endif %}>Grande</option>
+                </select>
             </div>
             <div style="flex: 1;">
                 <label>Sexo</label>
-                <select name="sexo"><option>Macho</option><option>Hembra</option></select>
+                <select name="sexo">
+                    <option {% if perrito.sexo == 'Macho' %}selected{% endif %}>Macho</option>
+                    <option {% if perrito.sexo == 'Hembra' %}selected{% endif %}>Hembra</option>
+                </select>
             </div>
         </div>
 
         <label>Edad (en años)</label>
-        <input type="number" name="edad" required>
+        <input type="number" name="edad" value="{{ perrito.edad }}" required>
 
         <label>Raza</label>
-        <input type="text" name="raza" required>
+        <input type="text" name="raza" value="{{ perrito.raza }}" required>
 
         <div class="section-title">Ubicación y contacto</div>
         <label>Ubicación</label>
-        <input type="text" name="ubicacion" required>
+        <input type="text" name="ubicacion" value="{{ perrito.ubicacion }}" required>
+        
         <label>Teléfono de contacto</label>
-        <input type="text" name="contacto" required>
+        <input type="text" name="contacto" value="{{ perrito.contacto }}" required>
 
         <div class="section-title">Estado</div>
         <label>Vacunado</label>
-        <select name="vacunado"><option>Sí</option><option>No</option></select>
+        <select name="vacunado">
+            <option {% if perrito.vacunado %}selected{% endif %}>Sí</option>
+            <option {% if not perrito.vacunado %}selected{% endif %}>No</option>
+        </select>
 
         <div class="section-title">Fotografía</div>
-        <!-- CAMBIO TÉCNICO 2: Se cambia de 'text' a 'file' y se añade accept -->
-        <label>Selecciona una imagen del perrito</label>
-        <input type="file" name="foto" accept="image/*" required>
+        <p style="font-size: 12px; color: #888; margin-bottom: 5px;">Foto actual: {{ perrito.foto }}</p>
+        <label>Subir nueva foto (opcional, deja vacío para no cambiarla)</label>
+        <input type="file" name="foto" accept="image/*">
 
-        <button type="submit">Guardar registro</button>
+        <button type="submit" class="btn-update">Actualizar registro 🐾</button>
     </form>
 </div>
 
@@ -75,14 +87,12 @@ footer { margin-top: 50px; background: linear-gradient(135deg, #3e2723, #5d4037)
         <h3>🐶 Candy</h3>
         <p>Endulzando vidas con amor perruno 🐾</p>
     </div>
-
     <div>
         <h4>Redes</h4>
         <p>Facebook: /CandyAdopciones</p>
         <p>Instagram: @candy.adopta</p>
         <p>WhatsApp: +57 310 456 7890</p>
     </div>
-
     <div>
         <h4>Legal</h4>
         <p>Política de privacidad</p>

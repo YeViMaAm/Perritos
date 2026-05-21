@@ -1,46 +1,67 @@
 # src/routers/login_router.py
-from fastapi import APIRouter, Request, Form, status, Response
+from fastapi import APIRouter, Request, Form, status
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
+
+# Importamos controladores y modelos
 from src.controllers.usuario_controller import autenticar_usuario, crear_usuario
 from src.models.usuario import Usuario
+from src.models.login import Login
+
+# IMPORTANTE: Importamos tus excepciones personalizadas para poder atraparlas en el try/except
+from src.exceptions import (
+    UsuarioVacio, UsuarioEspacios, 
+    ContrasenaVacia, ContrasenaEspacios, 
+    UsuarioNoExiste, ContrasenaIncorrecta
+)
 
 router = APIRouter(tags=["Autenticación"])
 templates = Jinja2Templates(directory="templates")
 
-# 1. Mostrar el Login
+# 1. MOSTRAR EL LOGIN
 @router.get("/")
 def mostrar_login(request: Request, error: str = None, msg: str = None):
-    # Pasamos 'error' o 'msg' para mostrarlos en el HTML si existen
+    """Muestra la página de inicio (Login)"""
     return templates.TemplateResponse("index.html", {
         "request": request, 
         "error": error, 
         "msg": msg
     })
 
-# 2. Procesar el Login
+# 2. PROCESAR EL LOGIN
 @router.post("/login")
 def procesar_login(usuario: str = Form(...), contrasena: str = Form(...)):
-    # Buscamos en la base de datos de usuarios
-    resultado = autenticar_usuario(usuario, contrasena)
+    """Lógica para validar credenciales y crear cookie de sesión"""
+    try:
+        # Paso A: Validar formato (Lanza UsuarioVacio, UsuarioEspacios, etc.)
+        datos_login = Login(usuario, contrasena) 
+        
+        # Paso B: Validar contra Base de Datos (Lanza UsuarioNoExiste o ContrasenaIncorrecta)
+        usuario_valido = autenticar_usuario(datos_login.usuario, datos_login.contrasena)
 
-    if resultado["success"]:
-        # Creamos la redirección a la lista
+        # Paso C: Si no hubo errores, crear redirección y cookie
         response = RedirectResponse(url="/lista", status_code=status.HTTP_303_SEE_OTHER)
-        # Creamos la Cookie de sesión
-        response.set_cookie(key="user_session", value=resultado["usuario"])
+        response.set_cookie(key="user_session", value=usuario_valido)
         return response
-    else:
-        # Si falla, regresamos al login con el error en la URL
-        return RedirectResponse(url=f"/?error={resultado['error']}", status_code=303)
 
-# 3. Procesar Registro de Nuevo Usuario
+    except (UsuarioVacio, UsuarioEspacios, ContrasenaVacia, ContrasenaEspacios, 
+            UsuarioNoExiste, ContrasenaIncorrecta) as e:
+        # Capturamos tus excepciones y enviamos el mensaje al HTML a través de la URL
+        return RedirectResponse(url=f"/?error={str(e)}", status_code=303)
+    
+    except Exception as e:
+        # Captura cualquier otro error inesperado
+        print(f"Error no controlado: {e}")
+        return RedirectResponse(url="/?error=Error+inesperado+en+el+servidor", status_code=303)
+
+# 3. PROCESAR REGISTRO DE NUEVO USUARIO
 @router.post("/registro_usuario")
 def registrar_nuevo_usuario(
     usuario: str = Form(...), 
     contrasena: str = Form(...), 
     nombre: str = Form(...)
 ):
+    """Crea un nuevo usuario en la base de datos"""
     nuevo = Usuario(username=usuario, password=contrasena, nombre_completo=nombre)
     exito = crear_usuario(nuevo)
     
@@ -49,10 +70,10 @@ def registrar_nuevo_usuario(
     else:
         return RedirectResponse(url="/?error=El+usuario+ya+existe", status_code=303)
 
-# 4. Cerrar Sesión
+# 4. CERRAR SESIÓN
 @router.get("/logout")
 def logout():
+    """Elimina la cookie de sesión y redirige al login"""
     response = RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
-    # Al borrar la cookie, el usuario vuelve a ser "invitado"
     response.delete_cookie("user_session")
     return response
