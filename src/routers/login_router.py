@@ -1,34 +1,58 @@
-from fastapi import APIRouter, Request, Form
+# src/routers/login_router.py
+from fastapi import APIRouter, Request, Form, status, Response
 from fastapi.templating import Jinja2Templates
-from src.controllers.login_controller import autenticar_usuario
+from fastapi.responses import RedirectResponse
+from src.controllers.usuario_controller import autenticar_usuario, crear_usuario
+from src.models.usuario import Usuario
 
-router = APIRouter()
-
+router = APIRouter(tags=["Autenticación"])
 templates = Jinja2Templates(directory="templates")
 
-# Mostrar página principal (login)
+# 1. Mostrar el Login
 @router.get("/")
-def mostrar_login(request: Request):
-    return templates.TemplateResponse("index.html", {"request": request})
+def mostrar_login(request: Request, error: str = None, msg: str = None):
+    # Pasamos 'error' o 'msg' para mostrarlos en el HTML si existen
+    return templates.TemplateResponse("index.html", {
+        "request": request, 
+        "error": error, 
+        "msg": msg
+    })
 
-# Procesar login
+# 2. Procesar el Login
 @router.post("/login")
-def procesar_login(request: Request, usuario: str = Form(...), contrasena: str = Form(...)):
+def procesar_login(usuario: str = Form(...), contrasena: str = Form(...)):
+    # Buscamos en la base de datos de usuarios
     resultado = autenticar_usuario(usuario, contrasena)
 
     if resultado["success"]:
-        # Lista de perritos de prueba
-        perritos = [
-            {"nombre": "Max", "raza": "Labrador", "edad": 2, "vacunado": True},
-            {"nombre": "Luna", "raza": "Criollo", "edad": 1, "vacunado": False}
-        ]
-
-        return templates.TemplateResponse("lista.html", {
-            "request": request,
-            "perritos": perritos
-        })
+        # Creamos la redirección a la lista
+        response = RedirectResponse(url="/lista", status_code=status.HTTP_303_SEE_OTHER)
+        # Creamos la Cookie de sesión
+        response.set_cookie(key="user_session", value=resultado["usuario"])
+        return response
     else:
-        return templates.TemplateResponse("index.html", {
-            "request": request,
-            "error": resultado["error"]
-        })
+        # Si falla, regresamos al login con el error en la URL
+        return RedirectResponse(url=f"/?error={resultado['error']}", status_code=303)
+
+# 3. Procesar Registro de Nuevo Usuario
+@router.post("/registro_usuario")
+def registrar_nuevo_usuario(
+    usuario: str = Form(...), 
+    contrasena: str = Form(...), 
+    nombre: str = Form(...)
+):
+    nuevo = Usuario(username=usuario, password=contrasena, nombre_completo=nombre)
+    exito = crear_usuario(nuevo)
+    
+    if exito:
+        return RedirectResponse(url="/?msg=Usuario+creado+exitosamente", status_code=303)
+    else:
+        return RedirectResponse(url="/?error=El+usuario+ya+existe", status_code=303)
+
+# 4. Cerrar Sesión
+@router.get("/logout")
+def logout():
+    response = RedirectResponse(url="/", status_code=status.HTTP_303_SEE_OTHER)
+    # Al borrar la cookie, el usuario vuelve a ser "invitado"
+    response.delete_cookie("user_session")
+    return response
